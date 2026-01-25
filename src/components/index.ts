@@ -3,3 +3,6 @@ export { default as BackgroundPattern } from './BackgroundPattern';
 export { default as Button } from './Button';
 export { default as Input } from './Input';
 export { default as AuthLayout } from './AuthLayout';
+export { ScreenHeader } from './ScreenHeader';
+export { BottomNavBar } from './BottomNavBar';
+export { default as ProductCard } from './ProductCard';

@@ -41,8 +41,11 @@ const LoginScreen: React.FC = () => {
 	};
 
 	const handleBiometric = () => {
-		// Handle biometric authentication
-		console.log('Biometric authentication');
+		navigation.navigate('Success', {
+			message: 'Biometric sign-in is not configured yet.',
+			navigateTo: 'Login',
+			variant: 'plain',
+		});
 	};
 
 	const handleSignUp = () => {

@@ -1,0 +1,146 @@
+import React, { useState } from 'react';
+import { View, Text, StatusBar, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import { ScreenHeader } from '../components/ScreenHeader';
+import Button from '../components/Button';
+import { COLORS } from '../constants/theme';
+import { NavigationProp } from '../types/navigation';
+import * as DocumentPicker from 'expo-document-picker';
+
+const RaiseOrderDisputeScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
+  const insets = useSafeAreaInsets();
+  const [orderId, setOrderId] = useState('');
+  const [complaint, setComplaint] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; uri?: string }[]>([]);
+
+  const handleSubmit = () => {
+    // Navigate to success screen
+    navigation.navigate('Success', {
+      message: 'Dispute raised! You will get a response in your mail within 24–48 hours. Thank you!',
+      navigateTo: 'Profile',
+      variant: 'plain',
+    });
+  };
+
+  const handleUpload = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ['image/*', 'application/pdf'],
+      copyToCacheDirectory: true,
+      multiple: false,
+    });
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const asset = result.assets[0];
+      setUploadedFiles((prev) => [
+        ...prev,
+        { name: asset.name ?? 'Attachment', uri: asset.uri },
+      ]);
+    }
+  };
+
+  const handleRemoveFile = (name: string) => {
+    setUploadedFiles((prev) => prev.filter((f) => f.name !== name));
+  };
+
+  return (
+    <View className="flex-1 bg-main-bg">
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+      
+      {/* Header */}
+      <ScreenHeader 
+        title="Raise Order Dispute" 
+        showBack={true} 
+      />
+
+      <ScrollView className="flex-1 px-6 pt-6" contentContainerStyle={{ paddingBottom: 120 }}>
+        
+        
+        {/* Order ID Input */}
+        <View className="mb-4">
+          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+            Enter Valid 8–digit Order ID <Text className="text-accent">*</Text>
+          </Text>
+          <TextInput
+             className="border border-gray-light rounded-lg px-3 py-4 text-[12px] text-text-primary"
+             placeholder="XXXXXXXX"
+             placeholderTextColor={COLORS.inputPlaceholder}
+             value={orderId}
+             onChangeText={setOrderId}
+             keyboardType="numeric"
+             maxLength={8}
+          />
+        </View>
+
+        {/* Complaint Text Area */}
+        <View className="mb-6">
+          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+            What is the issue with the order?<Text className="text-accent">*</Text>
+          </Text>
+          <TextInput
+            className="border border-gray-light rounded-lg px-3 py-3 text-[12px] text-text-primary h-[120px]"
+            placeholder="Describe your complaint..."
+            placeholderTextColor={COLORS.inputPlaceholder}
+            value={complaint}
+            onChangeText={setComplaint}
+            multiline
+            textAlignVertical="top"
+          />
+        </View>
+
+        {/* Upload Proof */}
+        <View className="mb-8">
+          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+            Upload proof <Text className="text-accent">*</Text>
+          </Text>
+          
+          {uploadedFiles.length === 0 ? (
+            <TouchableOpacity 
+              className="bg-primary-light rounded-lg py-4 items-center justify-center"
+              onPress={handleUpload}
+            >
+              <Text className="text-white font-plus-medium text-sm">
+                Click to upload proof (PDF, JPEG, PNG, etc)
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View>
+              {uploadedFiles.map((file) => (
+                <View key={file.name} className="flex-row items-center justify-between py-2">
+                  <Text className="text-text-primary text-sm">{file.name}</Text>
+                  <TouchableOpacity onPress={() => handleRemoveFile(file.name)}>
+                    <Ionicons name="close" size={20} color={COLORS.gray} />
+                  </TouchableOpacity>
+                </View>
+              ))}
+              <TouchableOpacity onPress={handleUpload}>
+                <Text className="text-primary font-plus-bold text-sm underline mt-2">
+                  + Upload additional proof
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        
+      </ScrollView>
+      
+      <SafeAreaView
+        edges={['bottom']}
+        className="bg-main-bg pt-4"
+        style={{ paddingBottom: Math.max(insets.bottom, 12) + 12 }}
+      >
+        <View className="px-6" style={{ width: '100%', maxWidth: 520, alignSelf: 'center' }}>
+          <Button
+            title="Submit Order Dispute"
+            onPress={handleSubmit}
+            className="w-full"
+            disabled={!orderId || orderId.length !== 8 || !complaint || uploadedFiles.length === 0}
+          />
+        </View>
+      </SafeAreaView>
+    </View>
+  );
+};
+
+export default RaiseOrderDisputeScreen;

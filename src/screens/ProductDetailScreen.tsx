@@ -147,12 +147,7 @@ const ProductDetailScreen: React.FC = () => {
   };
 
   const handleAddToCart = () => {
-    console.log('Add to cart:', {
-      productId: product.id,
-      quantity,
-      selectedSize,
-    });
-    // TODO: Implement cart functionality
+    navigation.navigate('Cart');
   };
 
   /* -------------------- Helpers -------------------- */

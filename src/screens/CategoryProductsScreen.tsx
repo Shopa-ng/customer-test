@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar,
   ScrollView,
   Modal,
   Dimensions,
@@ -11,10 +10,10 @@ import {
   findNodeHandle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../constants/theme';
-import { NavigationProp } from '../types/navigation';
+import { NavigationProp, RootStackParamList } from '../types/navigation';
 import { useSearch } from '../hooks/useSearch';
 import { Product } from '../types/product';
 import { ProductCard, ScreenHeader } from '../components';
@@ -36,27 +35,26 @@ const sortOptions = [
   { value: 'priceHighToLow', label: 'Price (high to low)' },
 ];
 
-const PopularInSchoolScreen: React.FC = () => {
+const CategoryProductsScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<RouteProp<RootStackParamList, 'CategoryProducts'>>();
+  const { title } = route.params;
   const insets = useSafeAreaInsets();
   const sortButtonRef = useRef<View>(null);
-
-  const handleProductPress = (productId: string) => {
-    navigation.navigate('ProductDetail', { productId });
-  };
 
   const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const [showSortModal, setShowSortModal] = useState(false);
   const [selectedSort, setSelectedSort] = useState<SortOption>('bestRatings');
 
-  const [products, _setProducts] = useState<Product[]>([
+  // Mock Data matching the screenshots
+  const [products] = useState<Product[]>([
     {
       id: '1',
-      name: 'New School Physics',
+      name: 'PRIMARK Shirt',
       price: 25000,
       rating: 4,
       reviews: 6,
-      image: require('../../assets/product-book.png'),
+      image: require('../../assets/product-shirt.png'),
     },
     {
       id: '2',
@@ -68,11 +66,11 @@ const PopularInSchoolScreen: React.FC = () => {
     },
     {
       id: '3',
-      name: 'New School Physics',
+      name: 'PRIMARK Shirt',
       price: 25000,
       rating: 4,
       reviews: 6,
-      image: require('../../assets/product-book.png'),
+      image: require('../../assets/product-shirt.png'),
     },
     {
       id: '4',
@@ -84,11 +82,11 @@ const PopularInSchoolScreen: React.FC = () => {
     },
     {
       id: '5',
-      name: 'New School Physics',
+      name: 'PRIMARK Shirt',
       price: 25000,
       rating: 4,
       reviews: 6,
-      image: require('../../assets/product-book.png'),
+      image: require('../../assets/product-shirt.png'),
     },
     {
       id: '6',
@@ -115,6 +113,10 @@ const PopularInSchoolScreen: React.FC = () => {
     navigation.navigate('Cart');
   };
 
+  const handleProductPress = (productId: string) => {
+    navigation.navigate('ProductDetail', { productId });
+  };
+
   const handleAddToCart = (_productId: string) => {
     navigation.navigate('Cart');
   };
@@ -137,17 +139,14 @@ const PopularInSchoolScreen: React.FC = () => {
     });
   };
 
-  /* -------------------- Helpers -------------------- */
-
   /* -------------------- UI -------------------- */
 
   return (
     <View className="flex-1 bg-main-bg">
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
 
       {/* Header */}
       <ScreenHeader
-        title="Popular in your school"
+        title={title}
         showBack
         enableSearch
         isSearchVisible={showSearch}
@@ -156,7 +155,6 @@ const PopularInSchoolScreen: React.FC = () => {
         onSearchChange={setSearchQuery}
         showCart
         onCartPress={handleCart}
-        backgroundColor={COLORS.primaryLight}
       />
 
       {/* Sort Button */}
@@ -167,7 +165,9 @@ const PopularInSchoolScreen: React.FC = () => {
           onPress={openSortPopover}
         >
           <Ionicons name="swap-vertical" size={18} color={COLORS.primary} />
-          <Text className="ml-2 text-sm font-plus-semibold text-primary-light">SORT BY</Text>
+          <Text className="ml-2 text-sm font-plus-semibold text-primary-light">
+            SORT BY
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -209,7 +209,7 @@ const PopularInSchoolScreen: React.FC = () => {
             }}
           >
             <View
-              className="rounded-xl border-2 border-primary-light bg-white px-4 py-3"
+              className="rounded-xl border border-primary bg-white px-4 py-3"
               style={{
                 width: 200,
                 maxWidth: Dimensions.get('window').width - 32,
@@ -227,10 +227,10 @@ const PopularInSchoolScreen: React.FC = () => {
                   onPress={() => handleSortSelect(option.value as SortOption)}
                 >
                   <View
-                    className={`mr-3 h-4 w-4 items-center justify-center rounded-full border border-primary-light`}
+                    className={`mr-3 h-4 w-4 items-center justify-center rounded-full border border-primary`}
                   >
                     {selectedSort === option.value && (
-                      <View className="h-2 w-2  bg-primary-light rounded-full" />
+                      <View className="h-2 w-2  bg-primary rounded-full" />
                     )}
                   </View>
                   <Text
@@ -252,4 +252,4 @@ const PopularInSchoolScreen: React.FC = () => {
   );
 };
 
-export default PopularInSchoolScreen;
+export default CategoryProductsScreen;

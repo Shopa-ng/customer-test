@@ -39,9 +39,7 @@ const VerifyEmailScreen: React.FC = () => {
   };
 
   const handleResendCode = () => {
-    // Simulate resend code
-    setError(null);
-    console.log('Resending code to:', email);
+    setError(`A new code has been sent to ${email}.`);
   };
 
   const handleContinue = async () => {

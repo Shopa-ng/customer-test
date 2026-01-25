@@ -14,7 +14,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [favorites, setFavorites] = useState<string[]>([]);
 
   const addFavorite = (productId: string) => {
-    setFavorites((prev) => [...prev, productId]);
+    setFavorites((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
   };
 
   const removeFavorite = (productId: string) => {

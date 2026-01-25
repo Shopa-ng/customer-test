@@ -53,6 +53,14 @@ const SignUpScreen: React.FC = () => {
         navigation.navigate('Login');
     };
 
+    const openComingSoon = (title: string) => {
+        navigation.navigate('Success', {
+            message: `${title} is not available yet.`,
+            navigateTo: 'SignUp',
+            variant: 'plain',
+        });
+    };
+
     return (
         <AuthLayout showLogo={false}>
             <View className="px-6 pt-12 pb-6">
@@ -191,8 +199,7 @@ const SignUpScreen: React.FC = () => {
                         <Text
                             className="text-accent underline"
                             onPress={() => {
-                                // Navigate or open Terms and Conditions link
-                                console.log('Open Terms and Conditions');
+                                openComingSoon('Terms and Conditions');
                             }}
                         >
                             Terms and Conditions
@@ -201,8 +208,7 @@ const SignUpScreen: React.FC = () => {
                         <Text
                             className="text-accent underline"
                             onPress={() => {
-                                // Navigate or open Privacy Policy link
-                                console.log('Open Privacy Policy');
+                                openComingSoon('Privacy Policy');
                             }}
                         >
                             Privacy Policy

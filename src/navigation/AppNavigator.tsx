@@ -13,6 +13,16 @@ import {
   HomeScreen,
   ProductDetailScreen,
   CategoriesScreen,
+  CategoryProductsScreen,
+  CartScreen,
+  CheckoutScreen,
+  ProfileScreen,
+  AccountSettingsScreen,
+  OrderHistoryScreen,
+  ChangePinScreen,
+  SavedItemsScreen,
+  RaiseOrderDisputeScreen,
+  OrderDetailsScreen,
 } from '../screens';
 import { RootStackParamList } from '../types/navigation';
 import { COLORS } from '../constants/theme';
@@ -40,6 +50,31 @@ const AppNavigator: React.FC = () => {
           component={CategoriesScreen}
           options={{ animation: 'none' }}
         />
+        <Stack.Screen
+          name="CategoryProducts"
+          component={CategoryProductsScreen}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{ animation: 'none' }}
+        />
+        <Stack.Screen
+          name="Checkout"
+          component={CheckoutScreen}
+          options={{ animation: 'none' }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ animation: 'none' }}
+        />
+        <Stack.Screen name="AccountSettings" component={AccountSettingsScreen} />
+        <Stack.Screen name="OrderHistory" component={OrderHistoryScreen} />
+        <Stack.Screen name="ChangePin" component={ChangePinScreen} />
+        <Stack.Screen name="SavedItems" component={SavedItemsScreen} />
+        <Stack.Screen name="RaiseOrderDispute" component={RaiseOrderDisputeScreen} />
+        <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
 
         <Stack.Screen

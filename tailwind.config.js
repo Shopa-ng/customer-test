@@ -19,6 +19,8 @@ module.exports = {
       },
       borderColor: {
         error: '#FDC500',
+        primary: '#EAEAEA',
+        main: '#2E7D32'
       },
       fontFamily: {
         plus: ['PlusJakartaSans_400Regular'],

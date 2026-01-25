@@ -48,7 +48,7 @@ const Input: React.FC<InputProps> = ({
             <Ionicons
               name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
               size={20}
-              color={COLORS.gray}
+              color={COLORS.black}
             />
           </TouchableOpacity>
         )}

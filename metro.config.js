@@ -4,6 +4,8 @@ const { withNativeWind } = require('nativewind/metro');
 /** @type {import('metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
 
+config.resetCache = true;
+
 config.transformer = {
   ...config.transformer,
   babelTransformerPath: require.resolve('react-native-svg-transformer'),
