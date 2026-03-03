@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AuthLayout, Input, Button } from '../components';
 import { COLORS } from '../constants/theme';
 import { NavigationProp } from '../types/navigation';
-import { signUp } from '../api/auth';
+import { registerUser } from '../api/auth.api';
 
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -41,7 +41,15 @@ const SignUpScreen: React.FC = () => {
     }
     setIsLoading(true);
     try {
-      await signUp({ fullName, phoneNumber, email, pin, university });
+      const [firstName, ...rest] = fullName.trim().split(' ');
+const lastName = rest.join(' ') || firstName;
+await registerUser({
+  firstName,
+  lastName,
+  email,
+  password: pin,
+  phone: phoneNumber,
+});
       navigation.navigate('Success', {
         message: 'Sign up successful! Check your mail inbox for a verification email.',
         navigateTo: 'VerifyEmail',
