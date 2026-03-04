@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,8 @@ import {
   ScrollView,
   Image,
   useWindowDimensions,
-  ImageSourcePropType,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -17,19 +18,8 @@ import { Logo, BottomNavBar } from '../components';
 import { COLORS } from '../constants/theme';
 import { NavigationProp } from '../types/navigation';
 import { useFavorites } from '../context/FavoritesContext';
-
-interface Category {
-  id: string;
-  name: string;
-  icon: string;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: ImageSourcePropType;
-}
+import { getProducts, getCategories, Product, Category } from '../api/products.api';
+import { useAuthStore } from '../store/auth.store';
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -37,7 +27,16 @@ const HomeScreen: React.FC = () => {
   const { width } = useWindowDimensions();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [searchQuery, setSearchQuery] = useState('');
+  const user = useAuthStore((s) => s.user);
 
+  // ─── API State ───
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // ─── Layout ───
   const numColumns = width >= 1024 ? 4 : width >= 768 ? 3 : 2;
   const horizontalPadding = 24;
   const gap = 16;
@@ -45,63 +44,66 @@ const HomeScreen: React.FC = () => {
     (width - horizontalPadding * 2 - gap * (numColumns - 1)) / numColumns;
   const cardHeight = cardWidth;
 
-  const categories: Category[] = [
-    { id: '1', name: 'Clothing', icon: 'shirt-outline' },
-    { id: '2', name: 'Stationery', icon: 'book-outline' },
-    { id: '3', name: 'Gadgets', icon: 'phone-portrait-outline' },
-    { id: '4', name: 'Provisions', icon: 'cube-outline' },
-  ];
+  // ─── Fetch Data ───
+  const fetchData = useCallback(async (showLoader = true) => {
+    if (showLoader) setIsLoading(true);
+    setError(null);
+    try {
+      const [productsRes, categoriesRes] = await Promise.all([
+        getProducts({ limit: 20, campusId: user?.campusId || undefined }),
+        getCategories(),
+      ]);
 
-  const popularProducts: Product[] = [
-    {
-      id: '1',
-      name: 'New School Physics',
-      price: 25000,
-      image: require('../../assets/product-book.png'),
-    },
-    {
-      id: '2',
-      name: 'PRIMARK Shirt',
-      price: 25000,
-      image: require('../../assets/product-shirt.png'),
-    },
-    {
-      id: '3',
-      name: 'New School Physics',
-      price: 25000,
-      image: require('../../assets/product-book.png'),
-    },
-  ];
+      // Handle both array and paginated responses
+      const productList = Array.isArray(productsRes) ? productsRes : productsRes.data || [];
+      const categoryList = Array.isArray(categoriesRes) ? categoriesRes : [];
 
-  const forYouProducts: Product[] = [
-    {
-      id: '4',
-      name: 'PRIMARK Shirt',
-      price: 25000,
-      image: require('../../assets/product-shirt.png'),
-    },
-    {
-      id: '5',
-      name: 'New School Physics',
-      price: 25000,
-      image: require('../../assets/product-book.png'),
-    },
-    {
-      id: '6',
-      name: 'New School Physics',
-      price: 25000,
-      image: require('../../assets/product-book.png'),
-    },
-  ];
+      setProducts(productList);
+      setCategories(categoryList);
+    } catch (err: any) {
+      const message = err?.response?.data?.message || err?.message || 'Failed to load products';
+      setError(message);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  }, [user?.campusId]);
 
-  // Filter products based on search query
-  const filteredPopularProducts = popularProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    fetchData(false);
+  };
+
+  // ─── Filter by search ───
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const filteredForYouProducts = forYouProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  // Split into "popular" (first half) and "for you" (second half)
+  const midpoint = Math.ceil(filteredProducts.length / 2);
+  const popularProducts = filteredProducts.slice(0, midpoint);
+  const forYouProducts = filteredProducts.slice(midpoint);
+
+  // ─── Category icons mapping ───
+  const categoryIcons: Record<string, string> = {
+    clothing: 'shirt-outline',
+    stationery: 'book-outline',
+    gadgets: 'phone-portrait-outline',
+    provisions: 'cube-outline',
+    electronics: 'phone-portrait-outline',
+    books: 'book-outline',
+    food: 'restaurant-outline',
+    accessories: 'watch-outline',
+  };
+
+  const getCategoryIcon = (name: string) => {
+    const key = name.toLowerCase();
+    return categoryIcons[key] || 'grid-outline';
+  };
 
   const handleCategoryPress = (category: Category) => {
     navigation.navigate('CategoryProducts', {
@@ -119,43 +121,59 @@ const HomeScreen: React.FC = () => {
       navigation.navigate('PopularInSchool');
       return;
     }
-    if (section === 'forYou') {
-      navigation.navigate('Success', {
-        message: 'This section will be available soon.',
-        navigateTo: 'Home',
-        variant: 'plain',
-      });
-    }
   };
 
-  const renderProductCard = (product: Product) => (
-    <TouchableOpacity
-      key={product.id}
-      style={{ width: cardWidth, marginRight: gap, marginBottom: gap }}
-      onPress={() => handleProductPress(product.id)}
-    >
-      <View style={{ height: cardHeight }} className="relative mb-2 w-full overflow-hidden rounded-xl">
-        <Image source={product.image} className="h-full w-full" resizeMode="cover" />
-        <TouchableOpacity
-          className={`absolute right-2 top-2 h-10 w-10 items-center justify-center rounded-full p-1 ${
-            isFavorite(product.id) ? 'bg-primary-4' : 'bg-main-bg'
-          }`}
-          onPress={() => toggleFavorite(product.id)}
-        >
-          <Ionicons
-            name="heart-outline"
-            size={18}
-            color={COLORS.textPrimary}
-          />
-        </TouchableOpacity>
-      </View>
-      <Text className="mb-1 text-base text-text-primary" numberOfLines={1}>
-        {product.name}
+  // ─── Product Card ───
+  const renderProductCard = (product: Product) => {
+    const imageUri = product.images && product.images.length > 0 ? product.images[0] : null;
+
+    return (
+      <TouchableOpacity
+        key={product.id}
+        style={{ width: cardWidth, marginRight: gap, marginBottom: gap }}
+        onPress={() => handleProductPress(product.id)}
+      >
+        <View style={{ height: cardHeight }} className="relative mb-2 w-full overflow-hidden rounded-xl bg-gray-light">
+          {imageUri ? (
+            <Image source={{ uri: imageUri }} className="h-full w-full" resizeMode="cover" />
+          ) : (
+            <View className="h-full w-full items-center justify-center">
+              <Ionicons name="image-outline" size={32} color={COLORS.textSecondary} />
+            </View>
+          )}
+          <TouchableOpacity
+            className={`absolute right-2 top-2 h-10 w-10 items-center justify-center rounded-full p-1 ${
+              isFavorite(product.id) ? 'bg-primary-4' : 'bg-main-bg'
+            }`}
+            onPress={() => toggleFavorite(product.id)}
+          >
+            <Ionicons
+              name="heart-outline"
+              size={18}
+              color={COLORS.textPrimary}
+            />
+          </TouchableOpacity>
+        </View>
+        <Text className="mb-1 text-base text-text-primary" numberOfLines={1}>
+          {product.name}
+        </Text>
+        <Text className="text-base font-plus-bold text-text-primary">
+          {'\u20A6'}{product.price.toLocaleString()}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  // ─── Empty / Loading / Error States ───
+  const renderEmptyState = () => (
+    <View className="items-center justify-center py-16">
+      <Ionicons name="bag-outline" size={48} color={COLORS.textSecondary} />
+      <Text className="mt-4 text-base text-text-secondary text-center">
+        {searchQuery
+          ? 'No products match your search'
+          : 'No products available yet.\nBe the first vendor to list!'}
       </Text>
-      <Text className="text-base font-plus-bold text-text-primary">
-        ₦{product.price.toLocaleString()}
-      </Text>
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -182,67 +200,104 @@ const HomeScreen: React.FC = () => {
         </View>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        className="flex-1"
-        contentContainerStyle={{
-          paddingBottom: Math.max(insets.bottom, 16) + 96,
-        }}
-      >
-        <View className="px-6 py-4">
-          <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-xl font-plus-semibold text-text-primary">Categories</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Categories')}>
-              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category.id}
-                className="mr-3 flex-row items-center rounded-lg bg-primary-4 px-4 py-2"
-                onPress={() => handleCategoryPress(category)}
-              >
-                <Ionicons name={category.icon as any} size={16} color={COLORS.primary} />
-                <Text className="ml-2 text-base text-primary-light">{category.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+      {isLoading ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color={COLORS.primary} />
+          <Text className="mt-3 text-base text-text-secondary">Loading products...</Text>
         </View>
+      ) : error ? (
+        <View className="flex-1 items-center justify-center px-6">
+          <Ionicons name="cloud-offline-outline" size={48} color={COLORS.textSecondary} />
+          <Text className="mt-4 text-base text-text-secondary text-center">{error}</Text>
+          <TouchableOpacity
+            className="mt-4 rounded-xl bg-primary px-6 py-3"
+            onPress={() => fetchData()}
+          >
+            <Text className="text-base text-white font-plus-semibold">Try Again</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="flex-1"
+          contentContainerStyle={{
+            paddingBottom: Math.max(insets.bottom, 16) + 96,
+          }}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} colors={[COLORS.primary]} />
+          }
+        >
+          {/* Categories */}
+          {categories.length > 0 && (
+            <View className="px-6 py-4">
+              <View className="mb-3 flex-row items-center justify-between">
+                <Text className="text-xl font-plus-semibold text-text-primary">Categories</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Categories')}>
+                  <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
+                </TouchableOpacity>
+              </View>
 
-        <View className="py-4">
-          <View className="mb-3 flex-row items-center justify-between px-6">
-            <Text className="text-xl font-plus-semibold text-text-primary">
-              Popular in your school
-            </Text>
-            <TouchableOpacity onPress={() => handleSeeAll('popular')}>
-              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View className="px-6">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: -gap }}>
-              {filteredPopularProducts.map((product) => renderProductCard(product))}
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
+                {categories.map((category) => (
+                  <TouchableOpacity
+                    key={category.id}
+                    className="mr-3 flex-row items-center rounded-lg bg-primary-4 px-4 py-2"
+                    onPress={() => handleCategoryPress(category)}
+                  >
+                    <Ionicons name={getCategoryIcon(category.name) as any} size={16} color={COLORS.primary} />
+                    <Text className="ml-2 text-base text-primary-light">{category.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
             </View>
-          </View>
-        </View>
+          )}
 
-        <View className="py-4 pb-6">
-          <View className="mb-3 flex-row items-center justify-between px-6">
-            <Text className="text-xl font-plus-semibold text-text-primary">For You</Text>
-            <TouchableOpacity onPress={() => handleSeeAll('forYou')}>
-              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
-            </TouchableOpacity>
-          </View>
+          {/* Products */}
+          {filteredProducts.length === 0 ? (
+            renderEmptyState()
+          ) : (
+            <>
+              {/* Popular in your school */}
+              {popularProducts.length > 0 && (
+                <View className="py-4">
+                  <View className="mb-3 flex-row items-center justify-between px-6">
+                    <Text className="text-xl font-plus-semibold text-text-primary">
+                      Popular in your school
+                    </Text>
+                    <TouchableOpacity onPress={() => handleSeeAll('popular')}>
+                      <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
+                    </TouchableOpacity>
+                  </View>
 
-          <View className="px-6">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: -gap }}>
-              {filteredForYouProducts.map((product) => renderProductCard(product))}
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+                  <View className="px-6">
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: -gap }}>
+                      {popularProducts.map((product) => renderProductCard(product))}
+                    </View>
+                  </View>
+                </View>
+              )}
+
+              {/* For You */}
+              {forYouProducts.length > 0 && (
+                <View className="py-4 pb-6">
+                  <View className="mb-3 flex-row items-center justify-between px-6">
+                    <Text className="text-xl font-plus-semibold text-text-primary">For You</Text>
+                    <TouchableOpacity onPress={() => handleSeeAll('forYou')}>
+                      <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View className="px-6">
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: -gap }}>
+                      {forYouProducts.map((product) => renderProductCard(product))}
+                    </View>
+                  </View>
+                </View>
+              )}
+            </>
+          )}
+        </ScrollView>
+      )}
 
       <BottomNavBar activeTab="Home" />
     </View>
