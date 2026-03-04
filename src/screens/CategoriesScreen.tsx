@@ -276,16 +276,9 @@ const CategoriesScreen: React.FC = () => {
     searchKeys: [],
   });
 
-  const fetchCategories = async () => {
-    try {
-      setTimeout(() => {
-        setCategories(MOCK_CATEGORIES);
-        setLoading(false);
-      }, 500);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setLoading(false);
-    }
+  const fetchCategories = () => {
+    setCategories(MOCK_CATEGORIES);
+    setLoading(false);
   };
 
   const handleCategoryPress = (id: string) => {

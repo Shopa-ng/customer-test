@@ -74,7 +74,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (email: string, pin: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await loginUser({ email, password: pin });
+      let response;
+      try {
+        response = await loginUser({ email, password: pin });
+      } catch (firstError: any) {
+        // On timeout, the server is likely cold-starting — retry once with 60s
+        const isTimeout =
+          firstError?.code === 'ECONNABORTED' ||
+          firstError?.message?.includes('timeout');
+        if (isTimeout) {
+          response = await loginUser({ email, password: pin }, 60000);
+        } else {
+          throw firstError;
+        }
+      }
       handleAuthSuccess(set, response);
     } catch (error: any) {
       const message =

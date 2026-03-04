@@ -124,7 +124,7 @@ const RaiseOrderDisputeScreen: React.FC = () => {
           
           {uploadedFiles.length === 0 ? (
             <TouchableOpacity 
-              className="bg-primary-light rounded-xl items-center justify-center"
+              className="bg-primary rounded-xl items-center justify-center"
               style={{ height: 53 }}
               onPress={handleUpload}
             >

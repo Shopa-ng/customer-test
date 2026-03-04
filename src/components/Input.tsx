@@ -9,6 +9,7 @@ interface InputProps extends TextInputProps {
   containerStyle?: ViewStyle;
   showPasswordToggle?: boolean;
   showErrorText?: boolean;
+  inputClassName?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   showPasswordToggle = false,
   secureTextEntry,
   showErrorText = true,
+  inputClassName,
   ...props
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -35,8 +37,8 @@ const Input: React.FC<InputProps> = ({
         <TextInput
           className={`rounded-xl bg-[#EAEAEA] px-4 text-base text-text-primary ${
             error ? 'border border-accent' : ''
-          } ${showPasswordToggle ? 'pr-10' : ''}`}
-          style={{ height: 56 }}
+          } ${showPasswordToggle ? 'pr-10' : ''} ${inputClassName ?? ''}`}
+          style={{ height: 56, textAlignVertical: 'center', paddingTop: 0, paddingBottom: 0 }}
           placeholderTextColor={COLORS.inputPlaceholder}
           secureTextEntry={showPasswordToggle ? !isPasswordVisible : secureTextEntry}
           {...props}

@@ -117,7 +117,7 @@ const SavedItemsScreen: React.FC = () => {
                   </View>
 
                   <TouchableOpacity 
-                    className="bg-primary-light rounded-xl py-2 mt-3 items-center justify-center"
+                    className="bg-primary rounded-xl py-2 mt-3 items-center justify-center"
                     onPress={() => navigation.navigate('Cart')}
                   >
                     <Text className="text-white font-plus-bold text-base">Add to cart</Text>

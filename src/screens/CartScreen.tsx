@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavigationProp } from '../types/navigation';
 import { COLORS } from '../constants/theme';
 import { ScreenHeader, BottomNavBar } from '../components';
@@ -25,6 +26,9 @@ interface CartItem {
 
 const CartScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const insets = useSafeAreaInsets();
+  // Nav bar height: pill (~65px) + bottom safe area + 20px minimum padding
+  const navBarHeight = Math.max(insets.bottom, 20) + 65;
   // Dummy data matching the image
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
@@ -78,7 +82,7 @@ const CartScreen: React.FC = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="flex-1 px-4 pt-6"
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: navBarHeight + 80 }}
       >
         {cartItems.map((item) => (
           <View
@@ -161,8 +165,11 @@ const CartScreen: React.FC = () => {
         ))}
       </ScrollView>
 
-      {/* Sticky Footer */}
-      <View className="bg-transparent px-6 pb-4">
+      {/* Sticky Footer — floats above the nav bar */}
+      <View
+        className="absolute left-0 right-0 px-6 bg-transparent"
+        style={{ bottom: navBarHeight + 12 }}
+      >
         <View className="flex-row items-center space-x-4">
           <View className="w-[40%]">
             <Text className="text-sm text-text-secondary">Sub Total:</Text>
@@ -171,7 +178,7 @@ const CartScreen: React.FC = () => {
             </Text>
           </View>
           <TouchableOpacity
-            className="flex-1 items-center justify-center rounded-xl bg-primary-light"
+            className="flex-1 items-center justify-center rounded-xl bg-primary"
             style={{ height: 53 }}
             onPress={() => navigation.navigate('Checkout', { subtotal: subTotal })}
           >

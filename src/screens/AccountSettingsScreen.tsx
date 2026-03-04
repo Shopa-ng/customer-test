@@ -35,7 +35,7 @@ const AccountSettingsScreen: React.FC = () => {
             label="Full Name"
             value={formData.fullName}
             onChangeText={(text) => setFormData({ ...formData, fullName: text })}
-            className="border border-gray-light rounded-xl"
+            inputClassName="bg-white border border-gray-light"
             placeholder="Enter full name"
           />
 
@@ -45,7 +45,7 @@ const AccountSettingsScreen: React.FC = () => {
             value={formData.phoneNumber}
             onChangeText={(text) => setFormData({ ...formData, phoneNumber: text })}
             keyboardType="phone-pad"
-            className="border border-gray-light rounded-xl"
+            inputClassName="bg-white border border-gray-light"
             placeholder="Enter phone number"
           />
 
@@ -54,7 +54,7 @@ const AccountSettingsScreen: React.FC = () => {
             label="Email Address"
             value={formData.email}
             editable={false}
-            className="bg-gray-light/30 border-transparent text-gray"
+            inputClassName="bg-gray-light/40 border border-gray-light text-text-secondary"
             placeholder="example@mail.com"
           />
 
@@ -63,10 +63,10 @@ const AccountSettingsScreen: React.FC = () => {
             <Button
               title="Change PIN"
               variant="outline"
-              className="self-start items-start pl-4 border border-gray-light bg-white"
-              textClassName="text-text-primary font-plus-medium text-left"
+              className="w-full border border-gray-light bg-white"
+              textClassName="text-text-primary font-plus-medium"
               onPress={() => navigation.navigate('ChangePin')}
-              size="medium"
+              size="large"
               style={{ borderColor: COLORS.grayLight, borderWidth: 1, borderRadius: 16 }}
             />
           </View>

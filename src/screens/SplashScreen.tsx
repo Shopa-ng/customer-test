@@ -7,9 +7,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { BackgroundPattern, Logo } from '../components';
 import { COLORS } from '../constants/theme';
 import { NavigationProp } from '../types/navigation';
+import { pingServer } from '../api/auth.api';
 
 const SplashScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+
+  // Wake up the Render backend as soon as the splash screen mounts
+  // so it's ready by the time the user gets to login
+  React.useEffect(() => {
+    pingServer();
+  }, []);
   const handleWelcome = React.useCallback(() => {
     navigation.navigate('Login');
   }, [navigation]);

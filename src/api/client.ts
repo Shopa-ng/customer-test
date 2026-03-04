@@ -8,7 +8,7 @@ const API_BASE_URL =
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000, // 15s timeout — generous for Nigerian network conditions
+  timeout: 30000, // 30s — accounts for Render cold starts + Nigerian network conditions
   headers: {
     'Content-Type': 'application/json',
   },

@@ -47,13 +47,22 @@ export interface BiometricLoginRequest {
 
 // ─── API Calls ───
 
+// Fire-and-forget ping to wake up the Render cold-start before login is attempted
+export async function pingServer(): Promise<void> {
+  try {
+    await apiClient.get('/health', { timeout: 60000 });
+  } catch {
+    // Ignore — this is best-effort only
+  }
+}
+
 export async function registerUser(data: RegisterRequest): Promise<AuthResponse> {
   const response = await apiClient.post<AuthResponse>('/auth/register', data);
   return response.data;
 }
 
-export async function loginUser(data: LoginRequest): Promise<AuthResponse> {
-  const response = await apiClient.post<AuthResponse>('/auth/login', data);
+export async function loginUser(data: LoginRequest, timeout?: number): Promise<AuthResponse> {
+  const response = await apiClient.post<AuthResponse>('/auth/login', data, timeout ? { timeout } : undefined);
   return response.data;
 }
 
