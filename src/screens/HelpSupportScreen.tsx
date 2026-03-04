@@ -16,7 +16,7 @@ const HelpSupportScreen: React.FC = () => {
       <ScreenHeader title="Help & Support" showBack={true} />
 
       <View className="px-6 pt-6">
-        <Text className="text-xl font-plus-bold text-text-primary mb-4">
+        <Text className="text-2xl font-plus-bold text-text-primary mb-4">
           Need help?
         </Text>
 
@@ -28,10 +28,10 @@ const HelpSupportScreen: React.FC = () => {
             <Ionicons name="mail" size={24} color={COLORS.white} />
           </View>
           <View>
-            <Text className="text-base font-plus-medium text-text-primary">
+            <Text className="text-lg font-plus-medium text-text-primary">
               Send us an email
             </Text>
-            <Text className="text-base font-plus-bold text-text-primary">
+            <Text className="text-lg font-plus-bold text-text-primary">
               shopanigeria@gmail.com
             </Text>
           </View>

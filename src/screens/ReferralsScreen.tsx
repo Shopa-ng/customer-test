@@ -22,7 +22,7 @@ const ReferralsScreen: React.FC = () => {
       <View className="flex-1 items-center justify-center px-6">
         <View className="w-[300px] h-[300px] items-center justify-center">
           <Ionicons name="gift" size={120} color={COLORS.primary} />
-          <Text className="text-text-secondary text-base font-plus-medium mt-4 text-center">
+          <Text className="text-text-secondary text-lg font-plus-medium mt-4 text-center">
             Refer friends and earn rewards!
           </Text>
         </View>
@@ -35,7 +35,7 @@ const ReferralsScreen: React.FC = () => {
           activeOpacity={0.8}
         >
           <Ionicons name="copy-outline" size={20} color={COLORS.white} />
-          <Text className="text-white font-plus-bold text-sm ml-2 tracking-wider">
+          <Text className="text-white font-plus-bold text-base ml-2 tracking-wider">
             COPY REFERRAL LINK
           </Text>
         </TouchableOpacity>

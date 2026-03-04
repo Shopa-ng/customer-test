@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, StyleProp } from 'react-native';
 import { COLORS } from '../constants/theme';
 
 interface ButtonProps {
@@ -27,7 +27,8 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const baseClasses = 'rounded-xl items-center justify-center';
   const sizeClasses =
-    size === 'small' ? 'py-2 px-4' : size === 'medium' ? 'py-3 px-5' : 'py-4 px-6';
+    size === 'small' ? 'px-4' : size === 'medium' ? 'px-5' : 'px-6';
+  const sizeStyle = size === 'small' ? { height: 36 } : size === 'medium' ? { height: 44 } : { height: 53 };
 
   let variantClasses = '';
   switch (variant) {
@@ -47,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
     className ?? ''
   }`.trim();
 
-  const baseTextClasses = 'text-base font-plus-semibold text-center';
+  const baseTextClasses = 'text-lg font-plus-semibold text-center';
   const colorClasses = variant === 'outline' ? 'text-primary' : 'text-white';
   const textClasses = `${baseTextClasses} ${colorClasses} ${textClassName ?? ''}`.trim();
 
@@ -57,7 +58,7 @@ const Button: React.FC<ButtonProps> = ({
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
-      style={style}
+      style={[sizeStyle, style]}
     >
       {loading ? (
         <ActivityIndicator color={COLORS.white} size="small" />

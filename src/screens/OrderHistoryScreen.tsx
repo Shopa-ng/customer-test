@@ -47,7 +47,7 @@ const OrderHistoryScreen: React.FC = () => {
           onPress={toggleSortDropdown}
         >
           <Ionicons name="swap-vertical" size={16} color={COLORS.primary} />
-          <Text className="ml-2 text-primary-light font-plus-bold text-xs">SORT BY</Text>
+          <Text className="ml-2 text-primary-light font-plus-bold text-sm">SORT BY</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -55,7 +55,7 @@ const OrderHistoryScreen: React.FC = () => {
           onPress={toggleFilterDropdown}
         >
           <Ionicons name="funnel-outline" size={16} color={COLORS.primary} />
-          <Text className="ml-2 text-primary-light font-plus-bold text-xs">FILTER BY</Text>
+          <Text className="ml-2 text-primary-light font-plus-bold text-sm">FILTER BY</Text>
         </TouchableOpacity>
       </View>
 
@@ -72,7 +72,7 @@ const OrderHistoryScreen: React.FC = () => {
             <View className="w-4 h-4 rounded-full border border-gray mr-2 items-center justify-center">
                {selectedSort === 'Most recent' && <View className="w-2.5 h-2.5 rounded-full bg-primary" />}
             </View>
-            <Text className="text-text-primary text-sm">Most recent</Text>
+            <Text className="text-text-primary text-base">Most recent</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             className="flex-row items-center py-2"
@@ -84,7 +84,7 @@ const OrderHistoryScreen: React.FC = () => {
             <View className="w-4 h-4 rounded-full border border-gray mr-2 items-center justify-center">
                {selectedSort === 'Oldest' && <View className="w-2.5 h-2.5 rounded-full bg-primary" />}
             </View>
-            <Text className="text-text-primary text-sm">Oldest</Text>
+            <Text className="text-text-primary text-base">Oldest</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -103,7 +103,7 @@ const OrderHistoryScreen: React.FC = () => {
               <View className="w-4 h-4 rounded-full border border-gray mr-2 items-center justify-center">
                  {selectedFilter === option && <View className="w-2.5 h-2.5 rounded-full bg-primary" />}
               </View>
-              <Text className="text-text-primary text-sm">{option}</Text>
+              <Text className="text-text-primary text-base">{option}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -128,7 +128,7 @@ const OrderHistoryScreen: React.FC = () => {
         ).length === 0
       ) ? (
         <View className="flex-1 items-center justify-center">
-          <Text className="text-gray text-sm">No orders to be displayed</Text>
+          <Text className="text-gray text-base">No orders to be displayed</Text>
         </View>
       ) : (
         <ScrollView className="flex-1 px-6" contentContainerStyle={{ paddingBottom: 20 }}>
@@ -142,12 +142,12 @@ const OrderHistoryScreen: React.FC = () => {
                 : new Date(a.date).getTime() - new Date(b.date).getTime()
             )
             .map((order, index) => (
-            <View key={index} className="bg-white p-4 rounded-lg mb-3 shadow-sm border border-gray-light">
+            <View key={index} className="bg-white p-4 rounded-xl mb-3 shadow-sm border border-gray-light">
               <Text className="text-text-primary font-plus-medium mb-1">
                 Order #{order.id}
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate('OrderDetails', { orderId: order.id, status: order.status })}>
-                <Text className="text-accent text-sm underline decoration-accent">
+                <Text className="text-accent text-base underline decoration-accent">
                   View Order Details
                 </Text>
               </TouchableOpacity>

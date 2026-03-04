@@ -134,7 +134,7 @@ const HomeScreen: React.FC = () => {
       style={{ width: cardWidth, marginRight: gap, marginBottom: gap }}
       onPress={() => handleProductPress(product.id)}
     >
-      <View style={{ height: cardHeight }} className="relative mb-2 w-full overflow-hidden rounded-lg">
+      <View style={{ height: cardHeight }} className="relative mb-2 w-full overflow-hidden rounded-xl">
         <Image source={product.image} className="h-full w-full" resizeMode="cover" />
         <TouchableOpacity
           className={`absolute right-2 top-2 h-10 w-10 items-center justify-center rounded-full p-1 ${
@@ -149,10 +149,10 @@ const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
       </View>
-      <Text className="mb-1 text-sm text-text-primary" numberOfLines={1}>
+      <Text className="mb-1 text-base text-text-primary" numberOfLines={1}>
         {product.name}
       </Text>
-      <Text className="text-sm font-plus-bold text-text-primary">
+      <Text className="text-base font-plus-bold text-text-primary">
         ₦{product.price.toLocaleString()}
       </Text>
     </TouchableOpacity>
@@ -173,7 +173,7 @@ const HomeScreen: React.FC = () => {
         <View className="flex-row items-center rounded-xl bg-white px-4">
           <Ionicons name="search" size={20} color={COLORS.textSecondary} />
           <TextInput
-            className="ml-2 flex-1 py-4 text-sm text-text-primary"
+            className="ml-2 flex-1 py-4 text-base text-text-primary"
             placeholder="Search for any item..."
             placeholderTextColor={COLORS.textSecondary}
             value={searchQuery}
@@ -191,9 +191,9 @@ const HomeScreen: React.FC = () => {
       >
         <View className="px-6 py-4">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-lg font-plus-semibold text-text-primary">Categories</Text>
+            <Text className="text-xl font-plus-semibold text-text-primary">Categories</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Categories')}>
-              <Text className="text-sm font-plus-bold underline text-primary-light">See all</Text>
+              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
             </TouchableOpacity>
           </View>
 
@@ -205,7 +205,7 @@ const HomeScreen: React.FC = () => {
                 onPress={() => handleCategoryPress(category)}
               >
                 <Ionicons name={category.icon as any} size={16} color={COLORS.primary} />
-                <Text className="ml-2 text-sm text-primary-light">{category.name}</Text>
+                <Text className="ml-2 text-base text-primary-light">{category.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -213,11 +213,11 @@ const HomeScreen: React.FC = () => {
 
         <View className="py-4">
           <View className="mb-3 flex-row items-center justify-between px-6">
-            <Text className="text-lg font-plus-semibold text-text-primary">
+            <Text className="text-xl font-plus-semibold text-text-primary">
               Popular in your school
             </Text>
             <TouchableOpacity onPress={() => handleSeeAll('popular')}>
-              <Text className="text-sm font-plus-bold underline text-primary-light">See all</Text>
+              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
             </TouchableOpacity>
           </View>
 
@@ -230,9 +230,9 @@ const HomeScreen: React.FC = () => {
 
         <View className="py-4 pb-6">
           <View className="mb-3 flex-row items-center justify-between px-6">
-            <Text className="text-lg font-plus-semibold text-text-primary">For You</Text>
+            <Text className="text-xl font-plus-semibold text-text-primary">For You</Text>
             <TouchableOpacity onPress={() => handleSeeAll('forYou')}>
-              <Text className="text-sm font-plus-bold underline text-primary-light">See all</Text>
+              <Text className="text-base font-plus-bold underline text-primary-light">See all</Text>
             </TouchableOpacity>
           </View>
 

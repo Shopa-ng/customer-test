@@ -84,7 +84,11 @@ function MainStack() {
         animation: 'slide_from_right',
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ animation: 'none' }}
+      />
       <Stack.Screen name="PopularInSchool" component={PopularInSchoolScreen} />
       <Stack.Screen
         name="Categories"
@@ -114,6 +118,11 @@ function MainStack() {
       <Stack.Screen name="Referrals" component={ReferralsScreen} />
       <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Stack.Screen
+        name="Success"
+        component={SuccessScreen}
+        options={{ animation: 'fade' }}
+      />
     </Stack.Navigator>
   );
 }

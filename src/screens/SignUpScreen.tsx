@@ -76,16 +76,16 @@ await registerUser({
     <AuthLayout showLogo={false}>
       <View className="px-6 pt-12 pb-6">
         {/* Header */}
-        <Text className="mb-2 text-center text-2xl font-satoshi-bold text-text-primary leading-tight">
+        <Text className="mb-2 text-center text-3xl font-satoshi-bold text-text-primary leading-tight">
           SIGN UP
         </Text>
-        <Text className="mb-2 text-center text-sm text-text-secondary font-plus-medium leading-tight">
+        <Text className="mb-2 text-center text-base text-text-secondary font-plus-medium leading-tight">
           Create a new Shopa account
         </Text>
 
         {/* Full Name Input */}
         <View className="mt-4">
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Enter your full name<Text className="text-accent">*</Text>
           </Text>
           <Input
@@ -98,7 +98,7 @@ await registerUser({
 
         {/* Phone Number Input */}
         <View>
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Enter your contact phone number<Text className="text-accent">*</Text>
           </Text>
           <Input
@@ -112,7 +112,7 @@ await registerUser({
 
         {/* Email Input */}
         <View>
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Enter your contact email address<Text className="text-accent">*</Text>
           </Text>
           <Input
@@ -127,7 +127,7 @@ await registerUser({
 
         {/* PIN Input */}
         <View>
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Create PIN<Text className="text-accent">*</Text>
           </Text>
           <Input
@@ -142,7 +142,7 @@ await registerUser({
 
         {/* Confirm PIN Input */}
         <View>
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Confirm PIN<Text className="text-accent">*</Text>
           </Text>
           <Input
@@ -157,7 +157,7 @@ await registerUser({
 
         {/* University Dropdown */}
         <View>
-          <Text className="mb-2 text-sm text-text-primary">
+          <Text className="mb-2 text-base text-text-primary">
             Select your university<Text className="text-accent">*</Text>
           </Text>
           <TouchableOpacity
@@ -204,7 +204,7 @@ await registerUser({
           >
             {agreedToTerms && <Ionicons name="checkmark" size={14} color={COLORS.white} />}
           </View>
-          <Text className="flex-1 text-sm text-text-primary flex-wrap">
+          <Text className="flex-1 text-base text-text-primary flex-wrap">
             Yes, I agree to the{' '}
             <Text
               className="text-accent underline"
@@ -245,9 +245,9 @@ await registerUser({
 
         {/* Sign In Link */}
         <View className="flex-row items-center justify-center">
-          <Text className="text-sm text-text-primary">Already have an account? </Text>
+          <Text className="text-base text-text-primary">Already have an account? </Text>
           <TouchableOpacity onPress={handleSignIn}>
-            <Text className="text-sm text-accent underline">Sign in here</Text>
+            <Text className="text-base text-accent underline">Sign in here</Text>
           </TouchableOpacity>
         </View>
       </View>

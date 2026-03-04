@@ -35,7 +35,7 @@ const AccountSettingsScreen: React.FC = () => {
             label="Full Name"
             value={formData.fullName}
             onChangeText={(text) => setFormData({ ...formData, fullName: text })}
-            className="border border-gray-light rounded-lg"
+            className="border border-gray-light rounded-xl"
             placeholder="Enter full name"
           />
 
@@ -45,7 +45,7 @@ const AccountSettingsScreen: React.FC = () => {
             value={formData.phoneNumber}
             onChangeText={(text) => setFormData({ ...formData, phoneNumber: text })}
             keyboardType="phone-pad"
-            className="border border-gray-light rounded-lg"
+            className="border border-gray-light rounded-xl"
             placeholder="Enter phone number"
           />
 
@@ -67,7 +67,7 @@ const AccountSettingsScreen: React.FC = () => {
               textClassName="text-text-primary font-plus-medium text-left"
               onPress={() => navigation.navigate('ChangePin')}
               size="medium"
-              style={{ borderColor: COLORS.grayLight, borderWidth: 1, borderRadius: 8 }}
+              style={{ borderColor: COLORS.grayLight, borderWidth: 1, borderRadius: 16 }}
             />
           </View>
         </ScrollView>

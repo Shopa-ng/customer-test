@@ -48,15 +48,15 @@ const LoginScreen: React.FC = () => {
   return (
     <AuthLayout>
       <View className="px-6 pt-10 pb-4">
-        <Text className="mb-2 text-center text-2xl font-satoshi-bold text-text-primary leading-tight">
+        <Text className="mb-2 text-center text-3xl font-satoshi-bold text-text-primary leading-tight">
           LOGIN
         </Text>
-        <Text className="mb-2 text-center text-sm font-plus-medium text-text-secondary leading-tight">
+        <Text className="mb-2 text-center text-base font-plus-medium text-text-secondary leading-tight">
           Sign in to your Shopa account
         </Text>
 
         {error && (
-          <Text className="mb-2 text-center text-sm font-plus-medium text-error">
+          <Text className="mb-2 text-center text-base font-plus-medium text-error">
             {error}
           </Text>
         )}
@@ -101,11 +101,11 @@ const LoginScreen: React.FC = () => {
                 <Ionicons name="checkmark" size={14} color={COLORS.white} />
               )}
             </View>
-            <Text className="text-xs text-text-primary">Remember Me</Text>
+            <Text className="text-sm text-text-primary">Remember Me</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={handleForgotPin}>
-            <Text className="text-xs font-plus-medium text-accent underline">
+            <Text className="text-sm font-plus-medium text-accent underline">
               Forgot PIN?
             </Text>
           </TouchableOpacity>
@@ -131,11 +131,11 @@ const LoginScreen: React.FC = () => {
         </View>
 
         <View className="flex-row items-center justify-center">
-          <Text className="text-sm text-text-primary">
+          <Text className="text-base text-text-primary">
             Don't have an account yet?{' '}
           </Text>
           <TouchableOpacity onPress={handleSignUp}>
-            <Text className="text-sm text-accent underline">Sign up here</Text>
+            <Text className="text-base text-accent underline">Sign up here</Text>
           </TouchableOpacity>
         </View>
       </View>

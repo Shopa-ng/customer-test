@@ -167,7 +167,7 @@ const PopularInSchoolScreen: React.FC = () => {
           onPress={openSortPopover}
         >
           <Ionicons name="swap-vertical" size={18} color={COLORS.primary} />
-          <Text className="ml-2 text-sm font-plus-semibold text-primary-light">SORT BY</Text>
+          <Text className="ml-2 text-base font-plus-semibold text-primary-light">SORT BY</Text>
         </TouchableOpacity>
       </View>
 
@@ -234,7 +234,7 @@ const PopularInSchoolScreen: React.FC = () => {
                     )}
                   </View>
                   <Text
-                    className={`text-sm ${
+                    className={`text-base ${
                       selectedSort === option.value
                         ? 'font-plus-semibold text-text-primary'
                         : 'text-text-primary'

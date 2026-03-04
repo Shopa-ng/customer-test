@@ -56,11 +56,11 @@ const OrderStep: React.FC<OrderStepProps> = ({
 
       {/* Content */}
       <View className="pb-8 justify-center">
-        <Text style={{ color }} className="font-plus-bold text-sm">
+        <Text style={{ color }} className="font-plus-bold text-base">
           {label}
         </Text>
         {time && (
-          <Text className="text-gray text-xs mt-0.5 font-plus-medium">
+          <Text className="text-gray text-sm mt-0.5 font-plus-medium">
             {time}
           </Text>
         )}
@@ -129,10 +129,10 @@ const OrderDetailsScreen: React.FC = () => {
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 160 }}>
         {/* Order Info Header */}
         <View className="px-6 pt-6 pb-2">
-          <Text className="text-xl font-plus-bold text-text-primary mb-1">
+          <Text className="text-2xl font-plus-bold text-text-primary mb-1">
             Order #{order.id}
           </Text>
-          <Text className="text-gray text-sm font-plus-medium">
+          <Text className="text-gray text-base font-plus-medium">
             Placed on {order.date}
           </Text>
         </View>
@@ -155,7 +155,7 @@ const OrderDetailsScreen: React.FC = () => {
 
         {/* Order Details */}
         <View className="px-6 mb-6">
-          <Text className="text-text-primary font-plus-bold text-base mb-4">
+          <Text className="text-text-primary font-plus-bold text-lg mb-4">
             Order Details
           </Text>
           {order.items.map((item, index) => (
@@ -164,10 +164,10 @@ const OrderDetailsScreen: React.FC = () => {
                 <Image source={item.image} className="w-12 h-12" resizeMode="contain" />
               </View>
               <View>
-                <Text className="text-text-primary font-plus-medium text-sm mb-1">
+                <Text className="text-text-primary font-plus-medium text-base mb-1">
                   {item.name}
                 </Text>
-                <Text className="text-text-primary font-plus-bold text-sm">
+                <Text className="text-text-primary font-plus-bold text-base">
                   ₦ {item.price.toLocaleString()}
                 </Text>
               </View>
@@ -177,18 +177,18 @@ const OrderDetailsScreen: React.FC = () => {
 
         {/* Delivery Details */}
         <View className="px-6 mb-8">
-          <Text className="text-text-primary font-plus-bold text-base mb-2">
+          <Text className="text-text-primary font-plus-bold text-lg mb-2">
             Delivery Details
           </Text>
-          <Text className="text-text-primary text-sm mb-1">{order.delivery.name}</Text>
-          <Text className="text-text-primary text-sm">{order.delivery.address}</Text>
+          <Text className="text-text-primary text-base mb-1">{order.delivery.name}</Text>
+          <Text className="text-text-primary text-base">{order.delivery.address}</Text>
         </View>
 
         <View className="px-6 mb-8">
           {order.status === 'Completed' ? (
             <>
               <Button title="Raise Order Dispute" onPress={() => navigation.navigate('RaiseOrderDispute')} />
-              <Text className="text-center text-xs text-gray mt-3 px-4 leading-4">
+              <Text className="text-center text-sm text-gray mt-3 px-4 leading-4">
                 Please note that orders can only be disputed within 24hours of receiving order.
               </Text>
             </>
@@ -199,16 +199,16 @@ const OrderDetailsScreen: React.FC = () => {
       <SafeAreaView edges={['bottom']} className="px-6 pt-4">
         <View className="bg-main-bg rounded-t-3xl shadow-lg p-6">
           <View className="flex-row justify-between mb-3">
-            <Text className="text-text-primary font-plus-medium text-sm">Subtotal</Text>
-            <Text className="text-text-primary font-plus-bold text-sm">₦ {order.subtotal.toLocaleString()}</Text>
+            <Text className="text-text-primary font-plus-medium text-base">Subtotal</Text>
+            <Text className="text-text-primary font-plus-bold text-base">₦ {order.subtotal.toLocaleString()}</Text>
           </View>
           <View className="flex-row justify-between mb-4 pb-4 border-b border-gray-light">
-            <Text className="text-text-primary font-plus-medium text-sm">Service fee (7.5%)</Text>
-            <Text className="text-text-primary font-plus-bold text-sm">₦ {order.serviceFee.toLocaleString()}</Text>
+            <Text className="text-text-primary font-plus-medium text-base">Service fee (7.5%)</Text>
+            <Text className="text-text-primary font-plus-bold text-base">₦ {order.serviceFee.toLocaleString()}</Text>
           </View>
           <View className="flex-row justify-between">
-            <Text className="text-text-primary font-plus-bold text-base">TOTAL</Text>
-            <Text className="text-text-primary font-plus-bold text-base">₦ {order.total.toLocaleString()}</Text>
+            <Text className="text-text-primary font-plus-bold text-lg">TOTAL</Text>
+            <Text className="text-text-primary font-plus-bold text-lg">₦ {order.total.toLocaleString()}</Text>
           </View>
         </View>
       </SafeAreaView>

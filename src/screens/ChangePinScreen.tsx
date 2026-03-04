@@ -49,7 +49,7 @@ const ChangePinScreen: React.FC = () => {
           maxLength={4}
           secureTextEntry
           showPasswordToggle
-          className="border border-gray-light rounded-lg"
+          className="border border-gray-light rounded-xl"
           placeholder="Enter old PIN"
         />
 
@@ -62,7 +62,7 @@ const ChangePinScreen: React.FC = () => {
           maxLength={4}
           secureTextEntry
           showPasswordToggle
-          className="border border-gray-light rounded-lg"
+          className="border border-gray-light rounded-xl"
           placeholder="XXXX"
         />
 
@@ -75,7 +75,7 @@ const ChangePinScreen: React.FC = () => {
           maxLength={4}
           secureTextEntry
           showPasswordToggle
-          className="border border-gray-light rounded-lg"
+          className="border border-gray-light rounded-xl"
           placeholder="XXXX"
         />
 

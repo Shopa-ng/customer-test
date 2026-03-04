@@ -64,16 +64,16 @@ const RaiseOrderDisputeScreen: React.FC = () => {
 
         {/* Order ID Error */}
         {orderIdError ? (
-          <Text className="text-accent font-plus-medium text-sm mb-2">{orderIdError}</Text>
+          <Text className="text-accent font-plus-medium text-base mb-2">{orderIdError}</Text>
         ) : null}
 
         {/* Order ID Input */}
         <View className="mb-4">
-          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+          <Text className="mb-2 text-base text-text-primary font-plus-medium">
             Enter Valid 8–digit Order ID <Text className="text-accent">*</Text>
           </Text>
           <TextInput
-             className={`border rounded-lg px-3 py-4 text-[12px] text-text-primary ${orderIdError ? 'border-accent' : 'border-gray-light'}`}
+             className={`border rounded-xl px-3 py-4 text-sm text-text-primary ${orderIdError ? 'border-accent' : 'border-gray-light'}`}
              placeholder="XXXXXXXX"
              placeholderTextColor={COLORS.inputPlaceholder}
              value={orderId}
@@ -88,11 +88,11 @@ const RaiseOrderDisputeScreen: React.FC = () => {
 
         {/* Complaint Text Area */}
         <View className="mb-6">
-          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+          <Text className="mb-2 text-base text-text-primary font-plus-medium">
             What is the issue with the order? <Text className="text-accent">*</Text>
           </Text>
           <TextInput
-            className="border border-gray-light rounded-lg px-3 py-3 text-[12px] text-text-primary h-[120px]"
+            className="border border-gray-light rounded-xl px-3 py-3 text-sm text-text-primary h-[120px]"
             placeholder="Describe your complaint..."
             placeholderTextColor={COLORS.inputPlaceholder}
             value={complaint}
@@ -104,11 +104,11 @@ const RaiseOrderDisputeScreen: React.FC = () => {
 
         {/* Account Details for Refund */}
         <View className="mb-6">
-          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+          <Text className="mb-2 text-base text-text-primary font-plus-medium">
             Provide account details in case of refund<Text className="text-accent">*</Text>
           </Text>
           <TextInput
-            className="border border-gray-light rounded-lg px-3 py-4 text-[12px] text-text-primary"
+            className="border border-gray-light rounded-xl px-3 py-4 text-sm text-text-primary"
             placeholder="e.g 0000000000, UBA bank, Esther Esther"
             placeholderTextColor={COLORS.inputPlaceholder}
             value={accountDetails}
@@ -118,16 +118,17 @@ const RaiseOrderDisputeScreen: React.FC = () => {
 
         {/* Upload Proof */}
         <View className="mb-8">
-          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+          <Text className="mb-2 text-base text-text-primary font-plus-medium">
             Upload proof <Text className="text-accent">*</Text>
           </Text>
           
           {uploadedFiles.length === 0 ? (
             <TouchableOpacity 
-              className="bg-primary-light rounded-lg py-4 items-center justify-center"
+              className="bg-primary-light rounded-xl items-center justify-center"
+              style={{ height: 53 }}
               onPress={handleUpload}
             >
-              <Text className="text-white font-plus-medium text-sm">
+              <Text className="text-white font-plus-medium text-base">
                 Click to upload proof (PDF, JPEG, PNG, etc)
               </Text>
             </TouchableOpacity>
@@ -135,14 +136,14 @@ const RaiseOrderDisputeScreen: React.FC = () => {
             <View>
               {uploadedFiles.map((file) => (
                 <View key={file.name} className="flex-row items-center justify-between py-2">
-                  <Text className="text-text-primary text-sm">{file.name}</Text>
+                  <Text className="text-text-primary text-base">{file.name}</Text>
                   <TouchableOpacity onPress={() => handleRemoveFile(file.name)}>
                     <Ionicons name="close" size={20} color={COLORS.gray} />
                   </TouchableOpacity>
                 </View>
               ))}
               <TouchableOpacity onPress={handleUpload}>
-                <Text className="text-primary font-plus-bold text-sm underline mt-2">
+                <Text className="text-primary font-plus-bold text-base underline mt-2">
                   + Upload additional proof
                 </Text>
               </TouchableOpacity>

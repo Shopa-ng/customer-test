@@ -69,10 +69,10 @@ const ProfileScreen: React.FC = () => {
 
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
         <View className="px-6 py-6">
-          <Text className="text-xl font-plus-semibold text-text-primary mb-1">
+          <Text className="text-2xl font-plus-semibold text-text-primary mb-1">
             Hello, Esther!
           </Text>
-          <Text className="text-sm text-text-secondary">
+          <Text className="text-base text-text-secondary">
             esther@gmail.com
           </Text>
         </View>
@@ -87,7 +87,7 @@ const ProfileScreen: React.FC = () => {
               <View className="w-8 mr-2">
                 <Ionicons name={item.icon as any} size={22} color={COLORS.textPrimary} />
               </View>
-              <Text className="text-base text-text-primary font-plus-medium">
+              <Text className="text-lg text-text-primary font-plus-medium">
                 {item.label}
               </Text>
             </TouchableOpacity>
@@ -99,7 +99,7 @@ const ProfileScreen: React.FC = () => {
           onPress={() => navigation.navigate('Login')}
         >
           <Ionicons name="log-out-outline" size={24} color={COLORS.accent} />
-          <Text className="ml-2 text-xl font-plus-semibold text-accent">
+          <Text className="ml-2 text-2xl font-plus-semibold text-accent">
             SIGN OUT
           </Text>
         </TouchableOpacity>

@@ -95,7 +95,7 @@ const CheckoutScreen: React.FC = () => {
           contentContainerStyle={{ paddingBottom: 24 }}
         >
           <View className="mb-6">
-          <Text className="mb-2 text-sm font-plus-medium text-text-primary">
+          <Text className="mb-2 text-base font-plus-medium text-text-primary">
             Select Delivery Type<Text className="text-accent">*</Text>
           </Text>
           <RadioOption
@@ -112,11 +112,11 @@ const CheckoutScreen: React.FC = () => {
 
         {deliveryType === 'delivery' ? (
           <View className="mb-6">
-            <Text className="mb-2 text-sm font-plus-medium text-text-primary">
+            <Text className="mb-2 text-base font-plus-medium text-text-primary">
               Enter delivery address<Text className="text-accent">*</Text>
             </Text>
             <TextInput
-              className="rounded-xl border border-gray-light px-3 py-3 text-[12px] text-text-primary min-h-[100px]"
+              className="rounded-xl border border-gray-light px-3 py-3 text-sm text-text-primary min-h-[100px]"
               value={address}
               onChangeText={setAddress}
               placeholder={
@@ -141,13 +141,13 @@ const CheckoutScreen: React.FC = () => {
                 onToggle={() => setSaveInfoChecked((prev) => !prev)}
               />
             )}
-      <Text className="mt-2 text-xs leading-[18px] text-text-secondary">
+      <Text className="mt-2 text-sm leading-[18px] text-text-secondary">
               Please note that your delivery will take between 24–72 hours after order confirmation
             </Text>
           </View>
         ) : (
           <View className="mb-6">
-            <Text className="mb-2 text-sm font-plus-medium text-text-primary">
+            <Text className="mb-2 text-base font-plus-medium text-text-primary">
               Select Pickup Location<Text className="text-accent">*</Text>
             </Text>
             {pickupLocations.map((loc) => (
@@ -158,14 +158,14 @@ const CheckoutScreen: React.FC = () => {
                 onPress={() => setSelectedPickupLocation(loc.value)}
               />
             ))}
-            <Text className="mt-2 text-xs leading-[18px] text-text-secondary">
+            <Text className="mt-2 text-sm leading-[18px] text-text-secondary">
               Please note that your delivery will take between 24–72 hours after order confirmation
             </Text>
           </View>
         )}
 
           <View className="mb-6">
-            <Text className="mb-1 text-sm font-plus-medium text-text-primary">
+            <Text className="mb-1 text-base font-plus-medium text-text-primary">
               Choose Payment Method<Text className="text-accent">*</Text>
             </Text>
             <RadioOption
@@ -187,16 +187,16 @@ const CheckoutScreen: React.FC = () => {
           >
             <View className="mb-4">
               <View className="flex-row items-center justify-between">
-                <Text className="text-sm text-text-primary">Subtotal</Text>
-                <Text className="text-base font-plus-bold text-text-primary">{formatNaira(subtotal)}</Text>
+                <Text className="text-base text-text-primary">Subtotal</Text>
+                <Text className="text-lg font-plus-bold text-text-primary">{formatNaira(subtotal)}</Text>
               </View>
               <View className="mt-1 flex-row items-center justify-between">
-                <Text className="text-sm text-text-secondary">Service fee (7.5%)</Text>
-                <Text className="text-base font-plus-bold text-text-primary">{formatNaira(fee)}</Text>
+                <Text className="text-base text-text-secondary">Service fee (7.5%)</Text>
+                <Text className="text-lg font-plus-bold text-text-primary">{formatNaira(fee)}</Text>
               </View>
               <View className="mt-2 flex-row items-center justify-between">
-                <Text className="text-sm font-plus-bold text-text-primary">TOTAL</Text>
-                <Text className="text-base font-plus-bold text-text-primary">{formatNaira(total)}</Text>
+                <Text className="text-base font-plus-bold text-text-primary">TOTAL</Text>
+                <Text className="text-lg font-plus-bold text-text-primary">{formatNaira(total)}</Text>
               </View>
             </View>
 

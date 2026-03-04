@@ -11,7 +11,7 @@ const VouchersScreen: React.FC = () => {
       <ScreenHeader title="Vouchers" showBack={true} />
 
       <View className="flex-1 items-center justify-center px-6">
-        <Text className="text-gray text-base font-plus-medium text-center">
+        <Text className="text-gray text-lg font-plus-medium text-center">
           You don't have any available{'\n'}voucher currently
         </Text>
       </View>

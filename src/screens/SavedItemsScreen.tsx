@@ -70,7 +70,7 @@ const SavedItemsScreen: React.FC = () => {
 
       {displayItems.length === 0 ? (
         <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-gray text-base font-plus-medium">
+          <Text className="text-gray text-lg font-plus-medium">
             No current saved items
           </Text>
         </View>
@@ -98,15 +98,15 @@ const SavedItemsScreen: React.FC = () => {
                 </View>
 
                 <View className="flex-1 justify-center">
-                  <Text className="text-text-primary font-plus-bold text-sm mb-1 leading-tight">
+                  <Text className="text-text-primary font-plus-bold text-base mb-1 leading-tight">
                     {item.name}
                   </Text>
-                  <Text className="text-gray text-xs mb-2">
+                  <Text className="text-gray text-sm mb-2">
                     {item.store}
                   </Text>
                   
                   <View className="flex-row items-center justify-between mt-2">
-                    <Text className="text-success font-plus-bold text-base">
+                    <Text className="text-success font-plus-bold text-lg">
                       ₦ {(item.price * (quantities[item.id] ?? 1)).toLocaleString()}
                     </Text>
                     
@@ -117,10 +117,10 @@ const SavedItemsScreen: React.FC = () => {
                   </View>
 
                   <TouchableOpacity 
-                    className="bg-primary-light rounded-lg py-2 mt-3 items-center justify-center"
+                    className="bg-primary-light rounded-xl py-2 mt-3 items-center justify-center"
                     onPress={() => navigation.navigate('Cart')}
                   >
-                    <Text className="text-white font-plus-bold text-sm">Add to cart</Text>
+                    <Text className="text-white font-plus-bold text-base">Add to cart</Text>
                   </TouchableOpacity>
                 </View>
               </View>

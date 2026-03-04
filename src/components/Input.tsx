@@ -29,13 +29,14 @@ const Input: React.FC<InputProps> = ({
   return (
     <View style={containerStyle} className="mb-4">
       {label && (
-        <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">{label}</Text>
+        <Text className="mb-2 text-base text-text-primary font-plus-medium">{label}</Text>
       )}
       <View className="relative">
         <TextInput
-          className={`rounded-xl bg-[#EAEAEA] px-3 py-4 text-[12px] text-text-primary ${
+          className={`rounded-xl bg-[#EAEAEA] px-4 text-base text-text-primary ${
             error ? 'border border-accent' : ''
           } ${showPasswordToggle ? 'pr-10' : ''}`}
+          style={{ height: 56 }}
           placeholderTextColor={COLORS.inputPlaceholder}
           secureTextEntry={showPasswordToggle ? !isPasswordVisible : secureTextEntry}
           {...props}
@@ -53,7 +54,7 @@ const Input: React.FC<InputProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {error && showErrorText && <Text className="mt-1 text-xs text-error">{error}</Text>}
+      {error && showErrorText && <Text className="mt-1 text-sm text-error">{error}</Text>}
     </View>
   );
 };

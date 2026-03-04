@@ -43,7 +43,7 @@ export default function App() {
 
   AppText.defaultProps.style = [
     AppText.defaultProps.style,
-    { fontFamily: 'PlusJakartaSans_400Regular' },
+    { fontFamily: 'PlusJakartaSans_400Regular', letterSpacing: -0.5 },
   ];
 
   return (

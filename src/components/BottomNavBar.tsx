@@ -52,7 +52,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab }) => {
                 color={isActive ? COLORS.primary : COLORS.textPrimary}
               />
               <Text
-                className={`mt-1 text-xs font-plus-bold ${
+                className={`mt-1 text-sm font-plus-bold ${
                   isActive ? 'text-primary' : 'text-text-primary'
                 }`}
               >

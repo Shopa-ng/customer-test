@@ -167,18 +167,18 @@ const ProductDetailScreen: React.FC = () => {
 
   const renderDetailsTab = () => (
     <View className="px-6 py-2">
-      <Text className="text-sm leading-6 text-text-primary">
+      <Text className="text-base leading-6 text-text-primary">
         {showFullDescription ? product.description : `${product.description.slice(0, 200)}...`}
       </Text>
       <TouchableOpacity onPress={() => setShowFullDescription(!showFullDescription)}>
-        <Text className="mt-2 text-sm font-plus-semibold text-accent">
+        <Text className="mt-2 text-base font-plus-semibold text-accent">
           {showFullDescription ? 'Show less' : 'Show more'}
         </Text>
       </TouchableOpacity>
 
       {product.specifications && product.specifications.length > 0 && (
         <View className="mt-6">
-          <Text className="mb-3 text-base font-plus-semibold text-text-primary">
+          <Text className="mb-3 text-lg font-plus-semibold text-text-primary">
             Specifications
           </Text>
           {product.specifications.map((spec, index) => (
@@ -186,8 +186,8 @@ const ProductDetailScreen: React.FC = () => {
               key={index}
               className="mb-2 flex-row justify-between border-b border-gray-100 pb-2"
             >
-              <Text className="text-sm text-text-secondary">{spec.label}</Text>
-              <Text className="text-sm font-plus-semibold text-text-primary">{spec.value}</Text>
+              <Text className="text-base text-text-secondary">{spec.label}</Text>
+              <Text className="text-base font-plus-semibold text-text-primary">{spec.value}</Text>
             </View>
           ))}
         </View>
@@ -200,13 +200,13 @@ const ProductDetailScreen: React.FC = () => {
       {reviews.map((review) => (
         <View key={review.id} className="mb-6">
           <View className="mb-2 flex-row items-center justify-between">
-            <Text className="text-base font-plus-semibold text-text-primary">
+            <Text className="text-lg font-plus-semibold text-text-primary">
               {review.userName}
             </Text>
-            <Text className="text-xs text-text-secondary">{review.date}</Text>
+            <Text className="text-sm text-text-secondary">{review.date}</Text>
           </View>
           <View className="mb-2">{renderStars(review.rating)}</View>
-          <Text className="text-sm leading-6 text-text-primary">{review.comment}</Text>
+          <Text className="text-base leading-6 text-text-primary">{review.comment}</Text>
         </View>
       ))}
     </View>
@@ -262,11 +262,11 @@ const ProductDetailScreen: React.FC = () => {
           <View className="px-6">
             <View className="mb-4 flex-row items-center justify-between">
               <View>
-                <Text className="text-xl font-plus-semibold text-text-primary">
+                <Text className="text-2xl font-plus-semibold text-text-primary">
                   {product.name}
                   {product.subtitle ? `\n${product.subtitle}` : ''}
                 </Text>
-                <Text className="mt-2 text-sm text-text-secondary">
+                <Text className="mt-2 text-base text-text-secondary">
                   Store: <Text className="text-accent font-plus-semibold">{product.store}</Text>
                 </Text>
               </View>
@@ -280,7 +280,7 @@ const ProductDetailScreen: React.FC = () => {
                   <Ionicons name="remove" size={18} color={COLORS.textPrimary} />
                 </TouchableOpacity>
                 <View className="w-8 items-center">
-                  <Text className="text-sm font-plus-semibold text-text-primary">{quantity}</Text>
+                  <Text className="text-base font-plus-semibold text-text-primary">{quantity}</Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => handleQuantityChange('increment')}
@@ -290,21 +290,21 @@ const ProductDetailScreen: React.FC = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Text className="mb-3 text-xl font-plus-bold text-text-primary">
+            <Text className="mb-3 text-2xl font-plus-bold text-text-primary">
               ₦{product.price.toLocaleString()}
             </Text>
 
             {/* Rating */}
             <View className="mb-8 flex-row items-center">
               {renderStars(product.rating)}
-              <Text className="ml-2 text-sm text-text-secondary">({product.reviewCount})</Text>
+              <Text className="ml-2 text-base text-text-secondary">({product.reviewCount})</Text>
             </View>
 
             {/* Size Selection (if available) */}
             {product.sizes && product.sizes.length > 0 && (
               <View className="mb-6">
                 <View className="flex-row items-center mb-3">
-                  <Text className="mr-3 text-sm font-plus-semibold text-text-primary">Size:</Text>
+                  <Text className="mr-3 text-base font-plus-semibold text-text-primary">Size:</Text>
                   <View className="flex-row flex-wrap">
                     {product.sizes.map((size) => (
                       <TouchableOpacity
@@ -317,7 +317,7 @@ const ProductDetailScreen: React.FC = () => {
                         }`}
                       >
                         <Text
-                          className={`text-sm font-plus-semibold ${
+                          className={`text-base font-plus-semibold ${
                             selectedSize === size ? 'text-primary-light' : 'text-text-primary'
                           }`}
                         >
@@ -339,7 +339,7 @@ const ProductDetailScreen: React.FC = () => {
                 }`}
               >
                 <Text
-                  className={`text-sm text-center ${
+                  className={`text-base text-center ${
                     activeTab === 'details'
                       ? 'font-plus-semibold text-primary-light'
                       : 'text-text-secondary'
@@ -355,7 +355,7 @@ const ProductDetailScreen: React.FC = () => {
                 }`}
               >
                 <Text
-                  className={`text-sm text-center ${
+                  className={`text-base text-center ${
                     activeTab === 'reviews'
                       ? 'font-plus-semibold text-primary-light'
                       : 'text-text-secondary'
@@ -385,16 +385,17 @@ const ProductDetailScreen: React.FC = () => {
         }}
       >
         <View>
-          <Text className="text-xs text-text-secondary">Total Price</Text>
-          <Text className="text-xl font-plus-bold text-text-primary">
+          <Text className="text-sm text-text-secondary">Total Price</Text>
+          <Text className="text-2xl font-plus-bold text-text-primary">
             ₦{(product.price * quantity).toLocaleString()}
           </Text>
         </View>
         <TouchableOpacity
           onPress={handleAddToCart}
-          className="rounded-lg bg-primary px-8 py-4"
+          className="rounded-xl bg-primary px-8 items-center justify-center"
+          style={{ height: 53 }}
         >
-          <Text className="text-base font-plus-semibold text-white">Add to cart</Text>
+          <Text className="text-lg font-plus-semibold text-white">Add to cart</Text>
         </TouchableOpacity>
       </View>
     </View>

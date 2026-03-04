@@ -58,10 +58,10 @@ export const ScreenHeader = ({
           <TouchableOpacity className="mr-3" onPress={onSearchToggle}>
             <Ionicons name="chevron-back" size={24} color={COLORS.white} />
           </TouchableOpacity>
-          <View className="flex-1 flex-row items-center rounded-lg bg-white px-4">
+          <View className="flex-1 flex-row items-center rounded-xl bg-white px-4">
             <Ionicons name="search" size={20} color={COLORS.textSecondary} />
             <TextInput
-              className="ml-2 flex-1 py-3 text-sm text-text-primary"
+              className="ml-2 flex-1 py-3 text-base text-text-primary"
               placeholder={searchPlaceholder}
               placeholderTextColor={COLORS.textSecondary}
               value={searchQuery}
@@ -91,7 +91,7 @@ export const ScreenHeader = ({
               </TouchableOpacity>
             )}
             <Text
-              className="text-xl font-plus-semibold text-white capitalize"
+              className="text-2xl font-plus-semibold text-white capitalize"
               numberOfLines={1}
             >
               {title}

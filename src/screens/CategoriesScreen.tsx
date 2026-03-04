@@ -364,7 +364,7 @@ const CategoriesScreen: React.FC = () => {
                     color={isSelected ? COLORS.primaryLight : '#9E9E9E'}
                   />
                   <Text
-                    className={`mt-2 text-center text-xs leading-3 px-1 ${
+                    className={`mt-2 text-center text-sm leading-3 px-1 ${
                       isSelected ? 'text-primary-light' : 'text-[#9E9E9E]'
                     }`}
                     numberOfLines={2}
@@ -384,13 +384,13 @@ const CategoriesScreen: React.FC = () => {
           >
             {filteredSections && filteredSections.length > 0 ? (
               filteredSections.map((section) => (
-                <View key={section.id} className="mb-4 bg-white rounded-lg border border-primary overflow-hidden">
+                <View key={section.id} className="mb-4 bg-white rounded-xl border border-primary overflow-hidden">
                   <View className="flex-row items-center justify-between px-4 py-3 border-b border-primary">
-                    <Text className="text-xs font-plus-bold text-text-primary uppercase">
+                    <Text className="text-sm font-plus-bold text-text-primary uppercase">
                       {section.title}
                     </Text>
                     <TouchableOpacity onPress={() => handleSeeAll(section.id, section.title)}>
-                      <Text className="text-xs font-plus-bold text-accent underline">
+                      <Text className="text-sm font-plus-bold text-accent underline">
                         See all
                       </Text>
                     </TouchableOpacity>
@@ -403,7 +403,7 @@ const CategoriesScreen: React.FC = () => {
                         className="w-1/3 items-center mb-4 px-1"
                         onPress={() => handleItemPress(item.id)}
                       >
-                        <View className="w-full aspect-square bg-white border border-primary rounded-lg mb-2 overflow-hidden items-center justify-center p-2">
+                        <View className="w-full aspect-square bg-white border border-primary rounded-xl mb-2 overflow-hidden items-center justify-center p-2">
                           <Image
                             source={{ uri: item.image }}
                             className="w-full h-full"
@@ -411,7 +411,7 @@ const CategoriesScreen: React.FC = () => {
                           />
                         </View>
                         <Text
-                          className="text-[11px] text-center text-text-secondary leading-3 font-plus-medium"
+                          className="text-xs text-center text-text-secondary leading-3 font-plus-medium"
                           numberOfLines={2}
                         >
                           {item.name}

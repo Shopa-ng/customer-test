@@ -41,7 +41,7 @@ const SuccessScreen: React.FC = () => {
       </View>
 
       {/* Message */}
-      <Text className="text-center text-sm font-plus-medium leading-6 text-primary-light">
+      <Text className="text-center text-base font-plus-medium leading-6 text-primary-light">
         {message}
       </Text>
     </View>

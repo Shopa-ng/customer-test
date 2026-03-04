@@ -83,7 +83,7 @@ const CartScreen: React.FC = () => {
         {cartItems.map((item) => (
           <View
             key={item.id}
-            className="mb-4 flex-row overflow-hidden rounded-md bg-main-bg border border-primary p-3 shadow-sm"
+            className="mb-4 flex-row overflow-hidden rounded-xl bg-main-bg border border-primary p-3 shadow-sm"
             style={{
                 shadowColor: "#000",
                 shadowOffset: {
@@ -109,10 +109,10 @@ const CartScreen: React.FC = () => {
               <View>
                 <View className="flex-row justify-between items-start">
                     <View className="flex-1 mr-2">
-                        <Text className="text-sm font-plus-medium text-text-primary">
+                        <Text className="text-base font-plus-medium text-text-primary">
                         {item.name}
                         </Text>
-                        <Text className="text-sm font-plus-medium text-text-primary mt-0.5">
+                        <Text className="text-base font-plus-medium text-text-primary mt-0.5">
                         {item.author}
                         </Text>
                     </View>
@@ -125,13 +125,13 @@ const CartScreen: React.FC = () => {
                     </TouchableOpacity>
                 </View>
                 
-                <Text className="mt-1 text-xs text-text-secondary">
+                <Text className="mt-1 text-sm text-text-secondary">
                   {item.merchant}
                 </Text>
               </View>
 
               <View className="flex-row items-center justify-between mt-4">
-                <Text className="text-base font-plus-bold text-primary-light">
+                <Text className="text-lg font-plus-bold text-primary-light">
                   ₦ {item.price.toLocaleString()}
                 </Text>
 
@@ -144,7 +144,7 @@ const CartScreen: React.FC = () => {
                     <Ionicons name="remove" size={18} color={COLORS.textSecondary} />
                   </TouchableOpacity>
 
-                  <Text className="text-sm font-plus-medium text-text-primary w-4 text-center">
+                  <Text className="text-base font-plus-medium text-text-primary w-4 text-center">
                     {item.quantity}
                   </Text>
 
@@ -165,16 +165,17 @@ const CartScreen: React.FC = () => {
       <View className="bg-transparent px-6 pb-4">
         <View className="flex-row items-center space-x-4">
           <View className="w-[40%]">
-            <Text className="text-xs text-text-secondary">Sub Total:</Text>
-            <Text className="text-xl font-plus-bold text-text-primary mt-1">
+            <Text className="text-sm text-text-secondary">Sub Total:</Text>
+            <Text className="text-2xl font-plus-bold text-text-primary mt-1">
               ₦ {subTotal.toLocaleString()}
             </Text>
           </View>
           <TouchableOpacity
-            className="flex-1 items-center justify-center rounded-lg bg-primary-light py-4"
+            className="flex-1 items-center justify-center rounded-xl bg-primary-light"
+            style={{ height: 53 }}
             onPress={() => navigation.navigate('Checkout', { subtotal: subTotal })}
           >
-            <Text className="text-sm font-plus-semibold text-white">
+            <Text className="text-base font-plus-semibold text-white">
               Continue to Checkout
             </Text>
           </TouchableOpacity>
