@@ -79,7 +79,7 @@ const SavedItemsScreen: React.FC = () => {
           {displayItems.map((item) => (
             <View 
               key={item.id} 
-              className="bg-background-card border border-primary rounded-xl p-4 mb-4 relative"
+              className="bg-background-card border border-gray-light rounded-xl p-4 mb-4 relative"
             >
               <TouchableOpacity 
                 className="absolute top-3 right-3 z-10 p-1"

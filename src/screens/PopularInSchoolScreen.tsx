@@ -156,7 +156,7 @@ const PopularInSchoolScreen: React.FC = () => {
         onSearchChange={setSearchQuery}
         showCart
         onCartPress={handleCart}
-        backgroundColor={COLORS.primaryLight}
+        backgroundColor={COLORS.primary}
       />
 
       {/* Sort Button */}

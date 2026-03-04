@@ -24,6 +24,10 @@ import {
   SavedItemsScreen,
   RaiseOrderDisputeScreen,
   OrderDetailsScreen,
+  HelpSupportScreen,
+  VouchersScreen,
+  TermsPoliciesScreen,
+  ReferralsScreen,
 } from '../screens';
 import { RootStackParamList } from '../types/navigation';
 import { COLORS } from '../constants/theme';
@@ -104,6 +108,10 @@ function MainStack() {
       <Stack.Screen name="ChangePin" component={ChangePinScreen} />
       <Stack.Screen name="SavedItems" component={SavedItemsScreen} />
       <Stack.Screen name="RaiseOrderDispute" component={RaiseOrderDisputeScreen} />
+      <Stack.Screen name="HelpSupport" component={HelpSupportScreen} />
+      <Stack.Screen name="Vouchers" component={VouchersScreen} />
+      <Stack.Screen name="TermsPolicies" component={TermsPoliciesScreen} />
+      <Stack.Screen name="Referrals" component={ReferralsScreen} />
       <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
     </Stack.Navigator>

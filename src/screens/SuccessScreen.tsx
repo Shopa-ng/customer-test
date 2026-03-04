@@ -36,7 +36,7 @@ const SuccessScreen: React.FC = () => {
       {/* Success checkmark */}
       <View className="mb-6 items-center">
         <View className="h-[72px] w-[72px] items-center justify-center rounded-full bg-primary-light">
-          <Ionicons name="checkmark" size={70} color={COLORS.white} />
+          <Ionicons name="checkmark" size={40} color={COLORS.white} />
         </View>
       </View>
 

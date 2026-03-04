@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
       )}
       <View className="relative">
         <TextInput
-          className={`rounded-md bg-[#EAEAEA] px-3 py-4 text-[12px] text-text-primary ${
+          className={`rounded-xl bg-[#EAEAEA] px-3 py-4 text-[12px] text-text-primary ${
             error ? 'border border-accent' : ''
           } ${showPasswordToggle ? 'pr-10' : ''}`}
           placeholderTextColor={COLORS.inputPlaceholder}

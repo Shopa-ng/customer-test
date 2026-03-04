@@ -42,22 +42,22 @@ const ProfileScreen: React.FC = () => {
     {
       icon: 'ticket-outline',
       label: 'Vouchers',
-      onPress: () => openComingSoon('Vouchers'),
+      onPress: () => navigation.navigate('Vouchers'),
     },
     {
       icon: 'gift-outline',
       label: 'Referrals',
-      onPress: () => openComingSoon('Referrals'),
+      onPress: () => navigation.navigate('Referrals'),
     },
     {
       icon: 'help-circle-outline',
       label: 'Help & Support',
-      onPress: () => openComingSoon('Help & Support'),
+      onPress: () => navigation.navigate('HelpSupport'),
     },
     {
       icon: 'alert-circle-outline',
       label: 'Terms & Policies',
-      onPress: () => openComingSoon('Terms & Policies'),
+      onPress: () => navigation.navigate('TermsPolicies'),
     },
   ];
 

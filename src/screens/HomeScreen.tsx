@@ -163,7 +163,7 @@ const HomeScreen: React.FC = () => {
       <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
 
       <View
-        className="bg-primary-light px-6 pb-4 rounded-b-xl"
+        className="bg-primary px-6 pb-4 rounded-b-xl"
         style={{ paddingTop: insets.top + 12 }}
       >
         <View className="mb-4 items-center">

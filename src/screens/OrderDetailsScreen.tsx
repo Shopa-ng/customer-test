@@ -122,7 +122,7 @@ const OrderDetailsScreen: React.FC = () => {
       
       {/* Header */}
       <ScreenHeader 
-        title="Order Details" 
+        title="Order History"
         showBack={true} 
       />
 

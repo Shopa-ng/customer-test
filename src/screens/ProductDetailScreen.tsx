@@ -171,7 +171,7 @@ const ProductDetailScreen: React.FC = () => {
         {showFullDescription ? product.description : `${product.description.slice(0, 200)}...`}
       </Text>
       <TouchableOpacity onPress={() => setShowFullDescription(!showFullDescription)}>
-        <Text className="mt-2 text-sm font-plus-semibold text-primary-light">
+        <Text className="mt-2 text-sm font-plus-semibold text-accent">
           {showFullDescription ? 'Show less' : 'Show more'}
         </Text>
       </TouchableOpacity>
@@ -262,7 +262,10 @@ const ProductDetailScreen: React.FC = () => {
           <View className="px-6">
             <View className="mb-4 flex-row items-center justify-between">
               <View>
-                <Text className="text-xl font-plus-semibold text-text-primary">{product.name}</Text>
+                <Text className="text-xl font-plus-semibold text-text-primary">
+                  {product.name}
+                  {product.subtitle ? `\n${product.subtitle}` : ''}
+                </Text>
                 <Text className="mt-2 text-sm text-text-secondary">
                   Store: <Text className="text-accent font-plus-semibold">{product.store}</Text>
                 </Text>
@@ -389,7 +392,7 @@ const ProductDetailScreen: React.FC = () => {
         </View>
         <TouchableOpacity
           onPress={handleAddToCart}
-          className="rounded-lg bg-primary-light px-8 py-4"
+          className="rounded-lg bg-primary px-8 py-4"
         >
           <Text className="text-base font-plus-semibold text-white">Add to cart</Text>
         </TouchableOpacity>

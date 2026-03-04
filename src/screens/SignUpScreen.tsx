@@ -128,7 +128,7 @@ await registerUser({
         {/* PIN Input */}
         <View>
           <Text className="mb-2 text-sm text-text-primary">
-            Enter PIN<Text className="text-accent">*</Text>
+            Create PIN<Text className="text-accent">*</Text>
           </Text>
           <Input
             placeholder="Enter your 4-digit PIN"
@@ -198,7 +198,7 @@ await registerUser({
           onPress={() => setAgreedToTerms(!agreedToTerms)}
         >
           <View
-            className={`mr-3 mt-1 h-[12px] w-[12px] items-center justify-center rounded-[3px] border ${
+            className={`mr-3 mt-1 h-[18px] w-[18px] items-center justify-center rounded-[3px] border ${
               agreedToTerms ? 'border-primary bg-primary' : 'border-text-primary'
             }`}
           >

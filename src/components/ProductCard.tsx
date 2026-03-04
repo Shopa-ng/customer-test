@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </Text>
           </View>
           <TouchableOpacity
-            className="items-center rounded-lg bg-primary-light py-3"
+            className="items-center rounded-lg bg-primary py-3"
             onPress={() => onAddToCart(product.id)}
           >
             <Text className="text-sm font-plus-semibold text-white">

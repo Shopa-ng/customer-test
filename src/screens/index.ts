@@ -19,3 +19,7 @@ export { default as ChangePinScreen } from './ChangePinScreen';
 export { default as SavedItemsScreen } from './SavedItemsScreen';
 export { default as RaiseOrderDisputeScreen } from './RaiseOrderDisputeScreen';
 export { default as OrderDetailsScreen } from './OrderDetailsScreen';
+export { default as HelpSupportScreen } from './HelpSupportScreen';
+export { default as VouchersScreen } from './VouchersScreen';
+export { default as TermsPoliciesScreen } from './TermsPoliciesScreen';
+export { default as ReferralsScreen } from './ReferralsScreen';

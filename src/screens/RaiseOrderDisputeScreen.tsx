@@ -14,12 +14,18 @@ const RaiseOrderDisputeScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
   const [orderId, setOrderId] = useState('');
   const [complaint, setComplaint] = useState('');
+  const [accountDetails, setAccountDetails] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; uri?: string }[]>([]);
+  const [orderIdError, setOrderIdError] = useState('');
 
   const handleSubmit = () => {
+    if (orderId.length !== 8) {
+      setOrderIdError('Incorrect Order ID!');
+      return;
+    }
     // Navigate to success screen
     navigation.navigate('Success', {
-      message: 'Dispute raised! You will get a response in your mail within 24–48 hours. Thank you!',
+      message: 'Dispute raised! You will get a response in your mail within 72 hours. Thank you!',
       navigateTo: 'Profile',
       variant: 'plain',
     });
@@ -55,19 +61,26 @@ const RaiseOrderDisputeScreen: React.FC = () => {
       />
 
       <ScrollView className="flex-1 px-6 pt-6" contentContainerStyle={{ paddingBottom: 120 }}>
-        
-        
+
+        {/* Order ID Error */}
+        {orderIdError ? (
+          <Text className="text-accent font-plus-medium text-sm mb-2">{orderIdError}</Text>
+        ) : null}
+
         {/* Order ID Input */}
         <View className="mb-4">
           <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
             Enter Valid 8–digit Order ID <Text className="text-accent">*</Text>
           </Text>
           <TextInput
-             className="border border-gray-light rounded-lg px-3 py-4 text-[12px] text-text-primary"
+             className={`border rounded-lg px-3 py-4 text-[12px] text-text-primary ${orderIdError ? 'border-accent' : 'border-gray-light'}`}
              placeholder="XXXXXXXX"
              placeholderTextColor={COLORS.inputPlaceholder}
              value={orderId}
-             onChangeText={setOrderId}
+             onChangeText={(text) => {
+               setOrderId(text);
+               if (orderIdError) setOrderIdError('');
+             }}
              keyboardType="numeric"
              maxLength={8}
           />
@@ -76,7 +89,7 @@ const RaiseOrderDisputeScreen: React.FC = () => {
         {/* Complaint Text Area */}
         <View className="mb-6">
           <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
-            What is the issue with the order?<Text className="text-accent">*</Text>
+            What is the issue with the order? <Text className="text-accent">*</Text>
           </Text>
           <TextInput
             className="border border-gray-light rounded-lg px-3 py-3 text-[12px] text-text-primary h-[120px]"
@@ -86,6 +99,20 @@ const RaiseOrderDisputeScreen: React.FC = () => {
             onChangeText={setComplaint}
             multiline
             textAlignVertical="top"
+          />
+        </View>
+
+        {/* Account Details for Refund */}
+        <View className="mb-6">
+          <Text className="mb-2 text-[14px] text-text-primary font-plus-medium">
+            Provide account details in case of refund<Text className="text-accent">*</Text>
+          </Text>
+          <TextInput
+            className="border border-gray-light rounded-lg px-3 py-4 text-[12px] text-text-primary"
+            placeholder="e.g 0000000000, UBA bank, Esther Esther"
+            placeholderTextColor={COLORS.inputPlaceholder}
+            value={accountDetails}
+            onChangeText={setAccountDetails}
           />
         </View>
 
@@ -135,7 +162,7 @@ const RaiseOrderDisputeScreen: React.FC = () => {
             title="Submit Order Dispute"
             onPress={handleSubmit}
             className="w-full"
-            disabled={!orderId || orderId.length !== 8 || !complaint || uploadedFiles.length === 0}
+            disabled={!orderId || orderId.length !== 8 || !complaint || !accountDetails || uploadedFiles.length === 0}
           />
         </View>
       </SafeAreaView>

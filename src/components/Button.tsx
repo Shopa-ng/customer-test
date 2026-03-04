@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
       variantClasses = 'bg-transparent border border-primary';
       break;
     default:
-      variantClasses = 'bg-primary-light';
+      variantClasses = 'bg-primary';
   }
 
   const disabledClasses = disabled || loading ? 'opacity-60' : '';

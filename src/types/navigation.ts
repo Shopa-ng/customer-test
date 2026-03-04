@@ -35,6 +35,10 @@ export type RootStackParamList = {
   ChangePin: undefined;
   SavedItems: undefined;
   RaiseOrderDispute: undefined;
+  HelpSupport: undefined;
+  Vouchers: undefined;
+  TermsPolicies: undefined;
+  Referrals: undefined;
   OrderDetails: {
     orderId: string;
     status: 'Completed' | 'Ongoing' | 'Canceled';
