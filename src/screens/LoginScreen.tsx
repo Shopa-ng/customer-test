@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { AuthLayout, Input, Button } from '../components';
 import { COLORS } from '../constants/theme';
 import { NavigationProp } from '../types/navigation';
@@ -14,7 +16,15 @@ const LoginScreen: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   // Connect to auth store instead of local state
-  const { login, isLoading, error, clearError } = useAuthStore();
+  const { login, loginWithBiometric, isBiometricEnabled, checkBiometricStatus, isLoading, error, clearError } = useAuthStore();
+
+  // Re-check biometric status and clear stale errors every time screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      checkBiometricStatus();
+      clearError();
+    }, [])
+  );
 
   // Clear error when user starts typing
   useEffect(() => {
@@ -35,12 +45,47 @@ const LoginScreen: React.FC = () => {
 
   const handleForgotPin = () => navigation.navigate('ForgotPin');
 
-  const handleBiometric = () => {
-    navigation.navigate('Success', {
-      message: 'Biometric sign-in is not configured yet.',
-      navigateTo: 'Login',
-      variant: 'plain',
+  const handleBiometric = async () => {
+    // Check if device supports biometrics
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    if (!hasHardware || !isEnrolled) {
+      navigation.navigate('Success', {
+        message: 'Biometric authentication is not available on this device.',
+        navigateTo: 'Login',
+        variant: 'plain',
+      });
+      return;
+    }
+
+    if (!isBiometricEnabled) {
+      navigation.navigate('Success', {
+        message: 'Biometric sign-in is not set up yet. Enable it in Account Settings.',
+        navigateTo: 'Login',
+        variant: 'plain',
+      });
+      return;
+    }
+
+    // Prompt the device biometric (Face ID / fingerprint)
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Sign in to Shopa',
+      fallbackLabel: 'Use PIN',
+      cancelLabel: 'Cancel',
     });
+
+    if (!result.success) return;
+
+    try {
+      await loginWithBiometric();
+    } catch (e: any) {
+      const msg = e?.response?.data?.message || e?.message || 'Biometric login failed.';
+      navigation.navigate('Success', {
+        message: msg,
+        navigateTo: 'Login',
+        variant: 'plain',
+      });
+    }
   };
 
   const handleSignUp = () => navigation.navigate('SignUp');
@@ -70,8 +115,6 @@ const LoginScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
-            error={error || undefined}
-            showErrorText={false}
           />
         </View>
 
@@ -83,8 +126,6 @@ const LoginScreen: React.FC = () => {
           keyboardType="numeric"
           maxLength={4}
           secureTextEntry
-          error={error || undefined}
-          showErrorText={false}
         />
 
         <View className="mt-1 mb-6 flex-row items-center justify-between">

@@ -4,6 +4,9 @@ import {
   registerUser,
   refreshTokenApi,
   logoutUser,
+  biometricLogin as biometricLoginApi,
+  enableBiometric,
+  disableBiometric,
   AuthResponse,
   RegisterRequest,
 } from '../api/auth.api';
@@ -11,6 +14,10 @@ import {
   storeRefreshToken,
   getRefreshToken,
   clearAllSecureStorage,
+  storeBiometricToken,
+  getBiometricToken,
+  removeBiometricToken,
+  getOrCreateDeviceId,
 } from '../utils/secure-storage';
 
 // ─── Types ───
@@ -35,6 +42,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitializing: boolean;
+  isBiometricEnabled: boolean;
   error: string | null;
 
   // Actions
@@ -44,9 +52,15 @@ interface AuthState {
   refreshSession: () => Promise<string | null>;
   initializeAuth: () => Promise<void>;
   clearError: () => void;
+  setUser: (user: User) => void;
+  loginWithBiometric: () => Promise<void>;
+  enableBiometrics: () => Promise<void>;
+  disableBiometrics: () => Promise<void>;
+  checkBiometricStatus: () => Promise<void>;
 }
 
 // ─── Helper ───
+
 function handleAuthSuccess(
   set: (partial: Partial<AuthState>) => void,
   response: AuthResponse,
@@ -69,7 +83,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   isInitializing: true,
+  isBiometricEnabled: false,
   error: null,
+
+  setUser: (user: User) => set({ user }),
 
   login: async (email: string, pin: string) => {
     set({ isLoading: true, error: null });
@@ -136,7 +153,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const storedToken = await getRefreshToken();
       if (!storedToken) return null;
-
       const response = await refreshTokenApi(storedToken);
       set({
         user: response.user,
@@ -168,4 +184,58 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   clearError: () => set({ error: null }),
+
+  checkBiometricStatus: async () => {
+    const token = await getBiometricToken();
+    set({ isBiometricEnabled: !!token });
+  },
+
+  loginWithBiometric: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const [biometricToken, deviceId] = await Promise.all([
+        getBiometricToken(),
+        getOrCreateDeviceId(),
+      ]);
+      if (!biometricToken) {
+        set({ isLoading: false });
+        throw new Error('Biometric login is not set up.');
+      }
+      const response = await biometricLoginApi({ biometricToken, deviceId });
+      handleAuthSuccess(set, response);
+    } catch (error: any) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
+  enableBiometrics: async () => {
+    try {
+      const deviceId = await getOrCreateDeviceId();
+      const platform = require('react-native').Platform.OS;
+      const { biometricToken } = await enableBiometric({ deviceId, platform });
+      await storeBiometricToken(biometricToken);
+      set({ isBiometricEnabled: true });
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Failed to enable biometrics.';
+      throw new Error(message);
+    }
+  },
+
+  disableBiometrics: async () => {
+    try {
+      await disableBiometric();
+      await removeBiometricToken();
+      set({ isBiometricEnabled: false });
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Failed to disable biometrics.';
+      throw new Error(message);
+    }
+  },
 }));

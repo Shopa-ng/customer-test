@@ -1,7 +1,6 @@
 import apiClient from './client';
 
 // ─── Types ───
-// These match the backend DTOs exactly (from auth.dto.ts and auth.service.ts)
 
 export interface RegisterRequest {
   email: string;
@@ -35,6 +34,12 @@ export interface AuthResponse {
   };
 }
 
+export interface UpdateProfileRequest {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+}
+
 export interface EnableBiometricRequest {
   deviceId: string;
   platform: string; // 'ios' or 'android'
@@ -62,7 +67,11 @@ export async function registerUser(data: RegisterRequest): Promise<AuthResponse>
 }
 
 export async function loginUser(data: LoginRequest, timeout?: number): Promise<AuthResponse> {
-  const response = await apiClient.post<AuthResponse>('/auth/login', data, timeout ? { timeout } : undefined);
+  const response = await apiClient.post<AuthResponse>(
+    '/auth/login',
+    data,
+    timeout ? { timeout } : undefined,
+  );
   return response.data;
 }
 
@@ -79,6 +88,13 @@ export async function logoutUser(token: string): Promise<void> {
 
 export async function logoutAllSessions(): Promise<void> {
   await apiClient.post('/auth/logout-all');
+}
+
+export async function updateProfile(
+  data: UpdateProfileRequest,
+): Promise<AuthResponse['user']> {
+  const response = await apiClient.patch<AuthResponse['user']>('/users/me', data);
+  return response.data;
 }
 
 export async function enableBiometric(
