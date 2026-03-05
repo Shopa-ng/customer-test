@@ -1,5 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { useAuthStore } from '../store/auth.store';
+
+// Lazy accessor to avoid require cycle: auth.api → client → auth.store → auth.api
+const getAuthStore = () => require('../store/auth.store').useAuthStore;
 
 // ─── Base Configuration ───
 // All endpoints are prefixed with /api/v1 on the backend (set in main.ts)
@@ -19,7 +21,7 @@ export const apiClient = axios.create({
 // You never have to manually add Authorization headers in your API calls.
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = useAuthStore.getState().accessToken;
+    const token = getAuthStore().getState().accessToken;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -88,7 +90,8 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const newToken = await useAuthStore.getState().refreshSession();
+        const store = getAuthStore().getState();
+        const newToken = await store.refreshSession();
 
         if (newToken) {
           processQueue(null, newToken);
@@ -97,12 +100,12 @@ apiClient.interceptors.response.use(
         } else {
           // Refresh failed — log out
           processQueue(new Error('Session expired'));
-          useAuthStore.getState().logout();
+          getAuthStore().getState().logout();
           return Promise.reject(error);
         }
       } catch (refreshError) {
         processQueue(refreshError as Error);
-        useAuthStore.getState().logout();
+        getAuthStore().getState().logout();
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
