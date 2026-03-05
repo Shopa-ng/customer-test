@@ -6,16 +6,14 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { BottomNavBar } from '../components/BottomNavBar';
 import { COLORS } from '../constants/theme';
 import { NavigationProp } from '../types/navigation';
+import { useAuthStore } from '../store/auth.store';
 
 const ProfileScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const { user, logout } = useAuthStore();
 
-  const openComingSoon = (title: string) => {
-    navigation.navigate('Success', {
-      message: `${title} is not available yet.`,
-      navigateTo: 'Profile',
-      variant: 'plain',
-    });
+  const handleLogout = async () => {
+    await logout();
   };
 
   const menuItems = [
@@ -64,19 +62,20 @@ const ProfileScreen: React.FC = () => {
   return (
     <View className="flex-1 bg-main-bg">
       <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
-
       <ScreenHeader title="Profile" showBack={false} />
 
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
+        {/* User Info */}
         <View className="px-6 py-6">
           <Text className="text-2xl font-plus-semibold text-text-primary mb-1">
-            Hello, Esther!
+            Hello, {user?.firstName ?? 'there'}!
           </Text>
           <Text className="text-base text-text-secondary">
-            esther@gmail.com
+            {user?.email ?? ''}
           </Text>
         </View>
 
+        {/* Menu */}
         <View className="px-6">
           {menuItems.map((item, index) => (
             <TouchableOpacity
@@ -94,9 +93,10 @@ const ProfileScreen: React.FC = () => {
           ))}
         </View>
 
-        <TouchableOpacity 
+        {/* Sign Out */}
+        <TouchableOpacity
           className="flex-row items-center justify-center mt-8 mb-8"
-          onPress={() => navigation.navigate('Login')}
+          onPress={handleLogout}
         >
           <Ionicons name="log-out-outline" size={24} color={COLORS.accent} />
           <Text className="ml-2 text-2xl font-plus-semibold text-accent">
