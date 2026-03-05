@@ -158,8 +158,13 @@ const CheckoutScreen: React.FC = () => {
   const handleWebViewNavigationChange = async (navState: any) => {
     const { url } = navState;
 
-    // Paystack redirects to callback URL after payment
-    if (url && (url.includes('callback') || url.includes('close'))) {
+    if (!url) return;
+
+    // Detect Paystack completion — matches callback URL or any redirect away from paystack.co
+    const isCallback = url.includes('callback') || url.includes('close');
+    const isRedirectFromPaystack = url.includes('trxref=') || url.includes('reference=');
+    
+    if (isCallback || isRedirectFromPaystack) {
       setPaymentUrl(null);
 
       if (paymentReference) {
