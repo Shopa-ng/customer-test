@@ -43,6 +43,28 @@ export interface Order {
   };
 }
 
+// ─── Dispute Types ───
+
+export interface CreateDisputeInput {
+  orderId: string;
+  reason: string;
+  description?: string;
+  accountDetails?: string;
+  proofUrls?: string[];
+}
+
+export interface Dispute {
+  id: string;
+  orderId: string;
+  reason: string;
+  description?: string;
+  accountDetails?: string;
+  proofUrls: string[];
+  status: string;
+  resolution?: string;
+  createdAt: string;
+}
+
 // ─── Payment Types ───
 
 export interface PaymentInitResponse {
@@ -76,6 +98,13 @@ export async function getOrderById(orderId: string): Promise<Order> {
   return response.data;
 }
 
+// ─── Dispute API Calls ───
+
+export async function createDispute(data: CreateDisputeInput): Promise<Dispute> {
+  const response = await apiClient.post<Dispute>('/disputes', data);
+  return response.data;
+}
+
 // ─── Payment API Calls ───
 
 export async function initializePayment(orderId: string): Promise<PaymentInitResponse> {
@@ -93,8 +122,6 @@ export async function verifyPayment(reference: string): Promise<PaymentVerifyRes
 }
 
 export async function getPaymentStatus(orderId: string): Promise<PaymentVerifyResponse> {
-  const response = await apiClient.get<PaymentVerifyResponse>(
-    `/payments/${orderId}`,
-  );
+  const response = await apiClient.get<PaymentVerifyResponse>(`/payments/${orderId}`);
   return response.data;
 }

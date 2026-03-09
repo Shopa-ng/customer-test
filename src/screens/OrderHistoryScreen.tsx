@@ -43,7 +43,7 @@ const OrderHistoryScreen: React.FC = () => {
       setError(null);
       const data = await getMyOrders();
       setOrders(data);
-    } catch (e: any) {
+    } catch {
       setError('Failed to load orders. Pull down to retry.');
     } finally {
       setLoading(false);

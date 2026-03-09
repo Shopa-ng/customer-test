@@ -130,6 +130,8 @@ const ProductDetailScreen: React.FC = () => {
   const price = Number(product.price);
   const vendorName = product.vendor?.storeName || 'Unknown Store';
   const description = product.description || 'No description available.';
+  const availableStock = Math.max(0, product.quantity || 0);
+  const canAddToCart = product.inStock && availableStock > 0;
   const reviews = (product as any).reviews || [];
   const reviewCount = reviews.length;
   const avgRating = reviewCount > 0
@@ -275,9 +277,9 @@ const ProductDetailScreen: React.FC = () => {
 
               {/* Stock info */}
               <View className="mt-6 flex-row items-center">
-                <View className={`h-2 w-2 rounded-full mr-2 ${product.stock > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+                <View className={`h-2 w-2 rounded-full mr-2 ${canAddToCart ? 'bg-green-500' : 'bg-red-500'}`} />
                 <Text className="text-base text-text-secondary">
-                  {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                  {canAddToCart ? `${availableStock} in stock` : 'Out of stock'}
                 </Text>
               </View>
             </View>
@@ -330,7 +332,7 @@ const ProductDetailScreen: React.FC = () => {
           onPress={handleAddToCart}
           className="rounded-xl bg-primary px-8 items-center justify-center"
           style={{ height: 53 }}
-          disabled={product.stock <= 0}
+          disabled={!canAddToCart}
         >
           <Text className="text-lg font-plus-semibold text-white">Add to cart</Text>
         </TouchableOpacity>

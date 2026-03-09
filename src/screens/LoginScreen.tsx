@@ -14,6 +14,7 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [pin, setPin] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
 
   // Connect to auth store instead of local state
   const { login, loginWithBiometric, isBiometricEnabled, checkBiometricStatus, isLoading, error, clearError } = useAuthStore();
@@ -21,9 +22,27 @@ const LoginScreen: React.FC = () => {
   // Re-check biometric status and clear stale errors every time screen is focused
   useFocusEffect(
     useCallback(() => {
-      checkBiometricStatus();
+      let isActive = true;
+
+      const loadBiometricState = async () => {
+        await checkBiometricStatus();
+        const [hasHardware, isEnrolled] = await Promise.all([
+          LocalAuthentication.hasHardwareAsync(),
+          LocalAuthentication.isEnrolledAsync(),
+        ]);
+
+        if (isActive) {
+          setBiometricAvailable(hasHardware && isEnrolled);
+        }
+      };
+
+      loadBiometricState();
       clearError();
-    }, [])
+
+      return () => {
+        isActive = false;
+      };
+    }, [checkBiometricStatus, clearError])
   );
 
   // Clear error when user starts typing
@@ -152,16 +171,23 @@ const LoginScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="mb-4 flex-row items-center">
+        <View className="mb-3">
           <Button
             title="LOGIN"
             onPress={handleLogin}
             loading={isLoading}
-            className="flex-1 mr-3"
+            className="w-full"
           />
+        </View>
+
+        <View className="mb-4 items-center">
           <TouchableOpacity
-            className="h-[56px] w-[56px] items-center justify-center rounded-xl bg-primary-light"
+            className={`h-[56px] w-[56px] items-center justify-center rounded-xl ${
+              biometricAvailable ? 'bg-primary-light' : 'bg-gray'
+            }`}
             onPress={handleBiometric}
+            disabled={isLoading}
+            activeOpacity={0.8}
           >
             <MaterialCommunityIcons
               name="fingerprint"

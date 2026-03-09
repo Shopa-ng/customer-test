@@ -59,9 +59,9 @@ const SavedItemsScreen: React.FC = () => {
       name: product.name,
       price: product.price,
       image: product.images?.[0] ?? null,
+      vendorName: product.vendor?.storeName || 'Unknown Store',
       vendorId: product.vendorId,
-      quantity: qty,
-    });
+    }, qty);
     navigation.navigate('Cart');
   };
 
