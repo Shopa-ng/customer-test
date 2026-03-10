@@ -51,7 +51,10 @@ const LoginScreen: React.FC = () => {
   }, [email, pin]);
 
   const handleLogin = async () => {
-    if (!email.trim() || !pin.trim()) return;
+    if (!email.trim() || !pin.trim()) {
+      useAuthStore.setState({ error: 'Please enter your email and PIN.' });
+      return;
+    }
     try {
       // Calls POST /api/v1/auth/login with { email, password: pin }
       // On success, isAuthenticated becomes true and navigator
@@ -171,16 +174,15 @@ const LoginScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="mb-3">
-          <Button
-            title="LOGIN"
-            onPress={handleLogin}
-            loading={isLoading}
-            className="w-full"
-          />
-        </View>
-
-        <View className="mb-4 items-center">
+        <View className="mb-4 flex-row items-center" style={{ gap: 5 }}>
+          <View className="flex-1">
+            <Button
+              title="LOGIN"
+              onPress={handleLogin}
+              loading={isLoading}
+              className="w-full"
+            />
+          </View>
           <TouchableOpacity
             className={`h-[56px] w-[56px] items-center justify-center rounded-xl ${
               biometricAvailable ? 'bg-primary-light' : 'bg-gray'

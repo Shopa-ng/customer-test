@@ -14,7 +14,9 @@ const SuccessScreen: React.FC = () => {
   const { message, navigateTo, params, variant } = route.params;
 
   const handleClose = () => {
-    if (params) {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else if (params) {
       navigation.navigate(navigateTo as any, params);
     } else {
       navigation.navigate(navigateTo as any);
